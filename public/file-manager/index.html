@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Claim Document File Manager</title>
+    <!-- Bootstrap 3 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js">
+    </script>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+    </script>
+    <style>
+        body {
+            background: #f4f6f9;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        .fm-wrapper {
+            padding: 25px;
+        }
+
+        .fm-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+            overflow: hidden;
+        }
+
+        .fm-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .fm-title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .fm-subtitle {
+            color: #888;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        .fm-toolbar {
+            padding: 12px 15px;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .breadcrumb {
+            margin: 0;
+            background: transparent;
+            padding: 5px 0;
+        }
+
+        .breadcrumb>li+li:before {
+            content: "/";
+            padding: 0 8px;
+            color: #aaa;
+        }
+
+        .fm-content {
+            min-height: 500px;
+        }
+
+        .file-table {
+            margin-bottom: 0;
+        }
+
+        .file-table thead {
+            background: #fafafa;
+        }
+
+        .file-table th {
+            border-bottom: 1px solid #ddd !important;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #777;
+            font-weight: 600;
+        }
+
+        .file-table td {
+            vertical-align: middle !important;
+        }
+
+        .file-name {
+            font-weight: 500;
+        }
+
+        .file-name a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .file-name a:hover {
+            color: #337ab7;
+        }
+
+        .file-icon {
+            width: 35px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .folder-icon {
+            color: #f0ad4e;
+        }
+
+        .pdf-icon {
+            color: #d9534f;
+        }
+
+        .image-icon {
+            color: #5bc0de;
+        }
+
+        .file-meta {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .action-buttons .btn {
+            margin-left: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #aaa;
+        }
+
+        .empty-state .glyphicon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 70px;
+            color: #888;
+        }
+
+        .loading .glyphicon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* Preview */
+
+        .preview-panel {
+            display: none;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .preview-header {
+            padding: 12px 15px;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .preview-title {
+            font-weight: 600;
+        }
+
+        .preview-content {
+            height: 700px;
+            background: #555;
+        }
+
+        .preview-content iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #fff;
+        }
+
+        .btn-preview {
+            color: #fff;
+            background: #337ab7;
+            border-color: #2e6da4;
+        }
+
+        .btn-preview:hover {
+            color: #fff;
+            background: #286090;
+        }
+
+        @media(max-width: 768px) {
+
+            .fm-wrapper {
+                padding: 10px;
+            }
+
+            .file-table th:nth-child(3),
+            .file-table td:nth-child(3) {
+                display: none;
+            }
+
+            .file-table th:nth-child(4),
+            .file-table td:nth-child(4) {
+                display: none;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-fluid fm-wrapper">
+
+        <div class="fm-card">
+
+            <!-- HEADER -->
+
+            <div class="fm-header">
+
+                <h3 class="fm-title">
+
+                    <span class="glyphicon glyphicon-folder-open"></span>
+
+                    Claim Document File Manager
+
+                </h3>
+
+                <div class="fm-subtitle">
+
+                    Kelola dan preview dokumen klaim
+
+                </div>
+
+            </div>
+
+
+            <!-- TOOLBAR -->
+
+            <div class="fm-toolbar">
+
+                <div class="row">
+
+                    <div class="col-sm-8">
+
+                        <ol class="breadcrumb" id="breadcrumb">
+                        </ol>
+
+                    </div>
+
+                    <div class="col-sm-4 text-right">
+
+                        <button type="button" class="btn btn-default btn-sm" id="btnRefresh">
+
+                            <span class="glyphicon glyphicon-refresh"></span>
+
+                            Refresh
+
+                        </button>
+                        <button type="button" id="btnLogout btn-sm" class="btn btn-danger navbar-btn">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            Logout
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="fm-content">
+
+                <div class="loading" id="loading">
+
+                    <div>
+                        <span class="glyphicon glyphicon-refresh">
+                        </span>
+                    </div>
+
+                    Membaca storage...
+
+                </div>
+
+
+                <div class="table-responsive" id="fileTableContainer" style="display:none;">
+
+                    <table class="table table-hover file-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th style="width:50px;"></th>
+
+                                <th>Nama</th>
+
+                                <th>Ukuran</th>
+
+                                <th>Modified</th>
+
+                                <th style="width:180px;">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="fileList">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div class="empty-state" id="emptyState" style="display:none;">
+
+                    <div>
+                        <span class="glyphicon glyphicon-folder-open">
+                        </span>
+                    </div>
+
+                    Folder kosong
+
+                </div>
+
+            </div>
+
+
+            <!-- PREVIEW -->
+
+            <div class="preview-panel" id="previewPanel">
+
+                <div class="preview-header">
+
+                    <div class="row">
+
+                        <div class="col-sm-8">
+
+                            <span class="glyphicon glyphicon-file">
+                            </span>
+
+                            <span class="preview-title" id="previewTitle">
+                            </span>
+
+                        </div>
+
+                        <div class="col-sm-4 text-right">
+
+                            <button type="button" class="btn btn-default btn-xs" id="btnClosePreview">
+
+                                <span class="glyphicon glyphicon-remove">
+                                </span>
+
+                                Tutup
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="preview-content">
+
+                    <iframe id="previewFrame">
+                    </iframe>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        (function () {
+            var currentPath = '';
+            function escapeHtml(value) {
+                return $('<div>')
+                    .text(value)
+                    .html();
+            }
+            function formatDate(value) {
+                if (!value) {
+                    return '-';
+                }
+                var date = new Date(value);
+                return date.toLocaleString(
+                    'id-ID'
+                );
+            }
+            function getFileIcon(item) {
+                if (item.type === 'folder') {
+                    return '<span class="glyphicon glyphicon-folder-close folder-icon"></span>';
+                }
+                if (item.extension === '.pdf') {
+                    return '<span class="glyphicon glyphicon-file pdf-icon"></span>';
+                }
+                if (
+                    item.extension === '.jpg' ||
+                    item.extension === '.jpeg' ||
+                    item.extension === '.png' ||
+                    item.extension === '.gif'
+                ) {
+                    return '<span class="glyphicon glyphicon-picture image-icon"></span>';
+                }
+                return '<span class="glyphicon glyphicon-file"></span>';
+            }
+
+            function renderBreadcrumb() {
+                var html = '';
+                html += `
+            <li>
+                <a href="#" data-path="">
+                    <span class="glyphicon glyphicon-home"></span>
+                    Claims
+                </a>
+            </li>
+        `;
+                if (currentPath) {
+                    var parts = String(currentPath).split('/');
+                    var accumulated = '';
+                    parts.forEach(function (part, index) {
+                        accumulated += (
+                            index > 0 ? '/' : ''
+                        ) + part;
+                        html += `
+                    <li>
+                        <a
+                            href="#"
+                            data-path="${escapeHtml(accumulated)}">
+                            ${escapeHtml(part)}
+                        </a>
+                    </li>
+                `;
+                    });
+                }
+                $('#breadcrumb').html(html);
+            }
+            function loadDirectory(path) {
+                currentPath = String(path || '');
+                renderBreadcrumb();
+                $('#loading').show();
+                $('#fileTableContainer').hide();
+                $('#emptyState').hide();
+                $.ajax({
+                    url: '/api/file-manager/list',
+                    method: 'GET',
+                    data: {
+                        path: currentPath
+                    },
+                    success: function (response) {
+                        renderFiles(
+                            response.data.items
+                        );
+                    },
+                    error: function (xhr) {
+                        alert(
+                            xhr.responseJSON &&
+                                xhr.responseJSON.message
+                                ? xhr.responseJSON.message
+                                : 'Gagal membaca folder'
+                        );
+                    },
+                    complete: function () {
+                        $('#loading').hide();
+                    }
+                });
+            }
+            function renderFiles(items) {
+                var $list = $('#fileList');
+                $list.empty();
+                if (!items || items.length === 0) {
+                    $('#emptyState').show();
+                    return;
+                }
+                $('#fileTableContainer').show();
+                items.forEach(function (item) {
+                    var action = '';
+                    if (item.type === 'folder') {
+                        action = `
+                    <button
+                        class="btn btn-default btn-xs btn-open-folder"
+                        data-path="${escapeHtml(item.path)}">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        Buka
+                    </button>
+                `;
+                    } else {
+                        if (item.extension === '.pdf') {
+                            action += `
+                        <button
+                            class="btn btn-preview btn-xs btn-preview-file"
+                            data-path="${escapeHtml(item.path)}"
+                            data-name="${escapeHtml(item.name)}">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            Preview
+                        </button>
+                    `;
+                        }
+                        action += `
+                    <a
+                        class="btn btn-default btn-xs"
+                        href="/api/file-manager/download?path=${encodeURIComponent(item.path)}">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                        Download
+                    </a>
+                `;
+                    }
+                    var row = `
+                <tr>
+                    <td class="file-icon">
+                        ${getFileIcon(item)}
+                    </td>
+                    <td>
+                        <div class="file-name">
+                            ${item.type === 'folder'
+                            ?
+                            `
+                                <a
+                                    href="#"
+                                    class="folder-link"
+                                    data-path="${escapeHtml(item.path)}">
+                                    ${escapeHtml(item.name)}
+                                </a>
+                                `
+                            :
+                            escapeHtml(item.name)
+                        }
+                        </div>
+                        ${item.type === 'file'
+                            ?
+                            `
+                            <div class="file-meta">
+                                ${escapeHtml(item.extension || '')}
+                            </div>
+                            `
+                            :
+                            ''
+                        }
+                    </td>
+                    <td>
+                        ${item.type === 'folder'
+                            ? '-'
+                            : escapeHtml(item.sizeText)
+                        }
+                    </td>
+                    <td>
+                        ${formatDate(item.modifiedAt)}
+                    </td>
+                    <td class="action-buttons">
+                        ${action}
+                    </td>
+                </tr>
+            `;
+                    $list.append(row);
+                });
+            }
+
+            function previewFile(path, name) {
+
+                $('#previewTitle').text(name);
+
+                $('#previewFrame').attr(
+                    'src',
+                    '/api/file-manager/preview?path=' +
+                    encodeURIComponent(path)
+                );
+
+                $('#previewPanel').slideDown(200);
+
+                $('html, body').animate({
+                    scrollTop: $('#previewPanel').offset().top
+                }, 300);
+
+            }
+
+            $(document).on(
+                'click',
+                '.folder-link, .btn-open-folder',
+                function (e) {
+
+                    e.preventDefault();
+
+                    var path = $(this).data('path');
+
+                    loadDirectory(path);
+
+                }
+            );
+
+            $(document).on(
+                'click',
+                '.btn-preview-file',
+                function () {
+
+                    var path = $(this).data('path');
+
+                    var name = $(this).data('name');
+
+                    previewFile(
+                        path,
+                        name
+                    );
+
+                }
+            );
+
+            $(document).on(
+                'click',
+                '#breadcrumb a',
+                function (e) {
+
+                    e.preventDefault();
+
+                    loadDirectory(
+                        $(this).data('path') || ''
+                    );
+
+                }
+            );
+
+            $('#btnRefresh').on(
+                'click',
+                function () {
+
+                    loadDirectory(
+                        currentPath
+                    );
+
+                }
+            );
+            $('#btnClosePreview').on(
+                'click',
+                function () {
+                    $('#previewPanel').slideUp(200);
+                    $('#previewFrame').attr(
+                        'src',
+                        'about:blank'
+                    );
+                }
+            );
+            $('#btnLogout').on(
+                'click',
+                function () {
+
+                    $.ajax({
+
+                        url: '/login/logout',
+
+                        method: 'POST',
+
+                        success: function (response) {
+
+                            window.location.href =
+                                response.redirect ||
+                                '/login';
+
+                        },
+
+                        error: function () {
+
+                            alert(
+                                'Gagal melakukan logout'
+                            );
+
+                        }
+
+                    });
+
+                }
+            );
+            loadDirectory('');
+        })();
+
+    </script>
+
+</body>
+
+</html>
