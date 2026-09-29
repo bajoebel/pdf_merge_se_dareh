@@ -413,39 +413,28 @@ $(function () {
 
 
             $.ajax({
-
                 url: '/login/login',
-
                 method: 'POST',
-
                 contentType:
                     'application/json',
-
                 data: JSON.stringify({
                     username: username,
                     password: password
                 }),
-
                 success: function (response) {
-
                     if (
                         response.success
                     ) {
-
+                        // alert("Go TO Dashbpard")
                         window.location.href =
                             response.redirect ||
-                            '/file-manager';
+                            '/dashboard';
 
                     }
-
                 },
-
                 error: function (xhr) {
-
                     var message =
                         'Username atau password salah';
-
-
                     if (
                         xhr.responseJSON &&
                         xhr.responseJSON.message
@@ -453,31 +442,20 @@ $(function () {
                         message =
                             xhr.responseJSON.message;
                     }
-
-
                     $('#loginError')
                         .text(message)
                         .fadeIn(200);
-
                 },
-
                 complete: function () {
-
                     $('#btnLogin')
                         .prop('disabled', false);
-
-
                     $('.normal')
                         .show();
-
-
                     $('.loading')
                         .hide();
 
                 }
-
             });
-
         }
     );
 

@@ -1,0 +1,5565 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SIMRS Dashboard</title>
+
+
+    <!-- =========================================================
+         BOOTSTRAP 3
+    ========================================================== -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    <!-- =========================================================
+         FONT
+    ========================================================== -->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700">
+
+
+    <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+
+    <style>
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
+        html,
+        body {
+
+            height: 100%;
+
+            margin: 0;
+
+            padding: 0;
+
+            font-family:
+                "Open Sans",
+                Arial,
+                sans-serif;
+
+            background: #f4f7fa;
+
+            color: #34495e;
+
+        }
+
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+        a {
+
+            text-decoration: none;
+
+        }
+
+
+        a:hover {
+
+            text-decoration: none;
+
+        }
+
+
+        /* =====================================================
+           APP
+        ====================================================== */
+
+        .app {
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            bottom: 0;
+
+            width: 240px;
+
+            background: #ffffff;
+
+            border-right: 1px solid #e5e9ed;
+
+            z-index: 1000;
+
+            transition:
+                transform .25s ease;
+
+            overflow-y: auto;
+
+        }
+
+
+        .sidebar-logo {
+
+            height: 70px;
+
+            padding: 0 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            border-bottom: 1px solid #edf0f3;
+
+        }
+
+
+        .logo-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 9px;
+
+            background: #337ab7;
+
+            color: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+            margin-right: 10px;
+
+        }
+
+
+        .logo-text {
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            color: #2c3e50;
+
+        }
+
+
+        .logo-subtitle {
+
+            font-size: 10px;
+
+            color: #9aa5af;
+
+            margin-top: 2px;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR MENU
+        ====================================================== */
+
+        .sidebar-menu {
+
+            padding: 18px 12px;
+
+        }
+
+
+        .menu-section-title {
+
+            padding:
+
+                8px 10px 7px 10px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            color: #a0aab4;
+
+            letter-spacing: .6px;
+
+        }
+
+
+        .sidebar-menu a {
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 11px 12px;
+
+            margin-bottom: 4px;
+
+            border-radius: 7px;
+
+            color: #667482;
+
+            font-size: 13px;
+
+            font-weight: 500;
+
+            transition:
+                background .15s ease,
+                color .15s ease;
+
+        }
+
+
+        .sidebar-menu a:hover {
+
+            background: #f2f6fa;
+
+            color: #337ab7;
+
+        }
+
+
+        .sidebar-menu a.active {
+
+            background: #eaf3ff;
+
+            color: #337ab7;
+
+            font-weight: 600;
+
+        }
+
+
+        .sidebar-menu a .menu-icon {
+
+            width: 24px;
+
+            margin-right: 8px;
+
+            font-size: 15px;
+
+            text-align: center;
+
+        }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        .main {
+
+            margin-left: 240px;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ====================================================== */
+
+        .topbar {
+
+            height: 70px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e5e9ed;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+
+                0 25px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
+
+        }
+
+
+        .mobile-menu-button {
+
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 20px;
+
+            color: #667482;
+
+        }
+
+
+        .topbar-title {
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            color: #34495e;
+
+        }
+
+
+        .topbar-right {
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .user-menu {
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .user-avatar {
+
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 50%;
+
+            background: #eaf3ff;
+
+            color: #337ab7;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-right: 9px;
+
+            font-size: 14px;
+
+        }
+
+
+        .user-info {
+
+            line-height: 1.2;
+
+        }
+
+
+        .user-name {
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            color: #34495e;
+
+        }
+
+
+        .user-role {
+
+            font-size: 10px;
+
+            color: #9aa5af;
+
+            margin-top: 2px;
+
+        }
+
+
+        .btn-logout {
+
+            margin-left: 15px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #9aa5af;
+
+            font-size: 14px;
+
+        }
+
+
+        .btn-logout:hover {
+
+            color: #d9534f;
+
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ====================================================== */
+
+        .content {
+
+            padding: 25px;
+
+        }
+
+
+        /* =====================================================
+           VIEW
+        ====================================================== */
+
+        .dashboard-view {
+
+            display: none;
+
+        }
+
+
+        .dashboard-view.active {
+
+            display: block;
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ====================================================== */
+
+        .page-header-custom {
+
+            margin:
+
+                0 0 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .page-title-wrapper {
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .page-title-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 10px;
+
+            background: #eaf3ff;
+
+            color: #337ab7;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-right: 12px;
+
+            font-size: 19px;
+
+        }
+
+
+        .page-title {
+
+            margin: 0;
+
+            font-size: 23px;
+
+            font-weight: 600;
+
+            color: #2c3e50;
+
+        }
+
+
+        .page-subtitle {
+
+            margin:
+
+                4px 0 0;
+
+            color: #8a96a3;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+        ====================================================== */
+
+        .stat-card {
+
+            background: #ffffff;
+
+            border:
+
+                1px solid #e6ebf0;
+
+            border-radius: 10px;
+
+            padding: 18px;
+
+            min-height: 120px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+
+                0 2px 8px rgba(0, 0, 0, .035);
+
+        }
+
+
+        .stat-card-inner {
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .stat-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+            margin-right: 14px;
+
+        }
+
+
+        .stat-icon-blue {
+
+            background: #eaf3ff;
+
+            color: #337ab7;
+
+        }
+
+
+        .stat-icon-green {
+
+            background: #e9f8ef;
+
+            color: #26934b;
+
+        }
+
+
+        .stat-icon-orange {
+
+            background: #fff5df;
+
+            color: #b87900;
+
+        }
+
+
+        .stat-icon-purple {
+
+            background: #f2eafd;
+
+            color: #7650a9;
+
+        }
+
+
+        .stat-label {
+
+            color: #8a96a3;
+
+            font-size: 11px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .stat-value {
+
+            color: #2c3e50;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =====================================================
+           GENERIC CARD
+        ====================================================== */
+
+        .content-card {
+
+            background: #ffffff;
+
+            border:
+
+                1px solid #e6ebf0;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+
+                0 2px 8px rgba(0, 0, 0, .035);
+
+            overflow: hidden;
+
+        }
+
+
+        .content-card-header {
+
+            padding:
+
+                16px 18px;
+
+            border-bottom:
+
+                1px solid #edf0f3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .content-card-title {
+
+            margin: 0;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #34495e;
+
+        }
+
+
+        .content-card-body {
+
+            padding: 20px;
+
+        }
+
+
+        /* =====================================================
+           QUICK MENU
+        ====================================================== */
+
+        .quick-menu {
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 14px;
+
+            border:
+
+                1px solid #e7ebef;
+
+            border-radius: 8px;
+
+            color: #34495e;
+
+            transition:
+                background .15s ease,
+                border-color .15s ease;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .quick-menu:hover {
+
+            background: #f8fbff;
+
+            border-color: #cbddeb;
+
+        }
+
+
+        .quick-menu-icon {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eaf3ff;
+
+            color: #337ab7;
+
+            margin-right: 12px;
+
+        }
+
+
+        .quick-menu-title {
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+        }
+
+
+        .quick-menu-description {
+
+            font-size: 10px;
+
+            color: #9aa5af;
+
+            margin-top: 3px;
+
+        }
+
+
+        /* =====================================================
+           VISIT FILTER
+        ====================================================== */
+
+        .visit-filter-card {
+
+            background: #ffffff;
+
+            border:
+
+                1px solid #e6ebf0;
+
+            border-radius: 10px;
+
+            padding: 18px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+
+                0 2px 8px rgba(0, 0, 0, .035);
+
+        }
+
+
+        .filter-title {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #34495e;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .filter-title i {
+
+            margin-right: 7px;
+
+            color: #337ab7;
+
+        }
+
+
+        .visit-filter-card label {
+
+            font-size: 11px;
+
+            color: #687583;
+
+            font-weight: 600;
+
+        }
+
+
+        .visit-filter-card .form-group {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .visit-filter-card .form-control {
+
+            height: 38px;
+
+            border-radius: 7px;
+
+            border-color: #dfe5eb;
+
+            box-shadow: none;
+
+            font-size: 12px;
+
+        }
+
+
+        .visit-filter-card .form-control:focus {
+
+            border-color: #66afe9;
+
+            box-shadow:
+
+                0 0 0 2px rgba(51, 122, 183, .08);
+
+        }
+
+
+        .btn-search-visit {
+
+            height: 38px;
+
+            border-radius: 7px;
+
+            padding: 0 16px;
+
+            margin-top: 23px;
+
+        }
+
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        .visit-table-card {
+
+            background: #ffffff;
+
+            border:
+
+                1px solid #e6ebf0;
+
+            border-radius: 10px;
+
+            box-shadow:
+
+                0 2px 8px rgba(0, 0, 0, .035);
+
+            overflow: hidden;
+
+        }
+
+
+        .visit-table-header {
+
+            padding:
+
+                15px 18px;
+
+            border-bottom:
+
+                1px solid #edf0f3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .visit-table-title {
+
+            margin: 0;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #34495e;
+
+        }
+
+
+        .visit-count {
+
+            font-size: 11px;
+
+            color: #8a96a3;
+
+        }
+
+
+        .visit-table-wrapper {
+
+            overflow-x: auto;
+
+        }
+
+
+        .visit-table {
+
+            margin: 0;
+
+            min-width: 1250px;
+
+        }
+
+
+        .visit-table>thead>tr>th {
+
+            background: #f8fafc;
+
+            border-top: none;
+
+            border-bottom:
+
+                1px solid #e5e9ed;
+
+            color: #667482;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            padding: 11px 10px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .visit-table>tbody>tr>td {
+
+            padding: 11px 10px;
+
+            vertical-align: middle;
+
+            border-top:
+
+                1px solid #f0f2f5;
+
+            color: #4c5966;
+
+            font-size: 11px;
+
+        }
+
+
+        .visit-table>tbody>tr:hover {
+
+            background: #fafcff;
+
+        }
+
+
+        .patient-name {
+
+            color: #2c3e50;
+
+            font-weight: 600;
+
+        }
+
+
+        .patient-gender {
+
+            font-size: 10px;
+
+            color: #9aa5af;
+
+            margin-top: 2px;
+
+        }
+
+
+        .registration-number {
+
+            color: #337ab7;
+
+            font-weight: 600;
+
+        }
+
+
+        .sep-number {
+
+            font-family: monospace;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =====================================================
+           BADGE
+        ====================================================== */
+
+        .visit-badge {
+
+            display: inline-block;
+
+            padding:
+
+                4px 8px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+        }
+
+
+        .badge-success-custom {
+
+            background: #e9f8ef;
+
+            color: #26934b;
+
+        }
+
+
+        .badge-warning-custom {
+
+            background: #fff6df;
+
+            color: #b87900;
+
+        }
+
+
+        .badge-info-custom {
+
+            background: #e9f5ff;
+
+            color: #2478b9;
+
+        }
+
+
+        .badge-muted-custom {
+
+            background: #f0f2f4;
+
+            color: #7b8792;
+
+        }
+
+
+        /* =====================================================
+           DETAIL BUTTON
+        ====================================================== */
+
+        .btn-visit-detail {
+
+            border-radius: 6px;
+
+            font-size: 10px;
+
+            padding:
+
+                5px 9px;
+
+            background: #fff;
+
+            border:
+
+                1px solid #d8e0e7;
+
+            color: #337ab7;
+
+        }
+
+
+        .btn-visit-detail:hover {
+
+            background: #337ab7;
+
+            border-color: #337ab7;
+
+            color: #fff;
+
+        }
+
+
+        /* =====================================================
+           LOADING
+        ====================================================== */
+
+        .loading-state {
+
+            text-align: center;
+
+            padding: 50px 20px;
+
+            color: #8a96a3;
+
+        }
+
+
+        .loading-state .glyphicon {
+
+            font-size: 26px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ====================================================== */
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 50px 20px;
+
+            color: #8a96a3;
+
+        }
+
+
+        .empty-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 50%;
+
+            background: #f3f6f9;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin:
+
+                0 auto 12px;
+
+            font-size: 20px;
+
+        }
+
+
+        .empty-title {
+
+            color: #667482;
+
+            font-weight: 600;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .empty-description {
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           FILE MANAGER
+        ====================================================== */
+
+        .file-manager-card {
+
+            background: #ffffff;
+
+            border:
+
+                1px solid #e6ebf0;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            box-shadow:
+
+                0 2px 8px rgba(0, 0, 0, .035);
+
+        }
+
+
+        .file-manager-toolbar {
+
+            padding: 14px 18px;
+
+            border-bottom:
+
+                1px solid #edf0f3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .breadcrumb-custom {
+
+            margin: 0;
+
+            background: transparent;
+
+            padding: 0;
+
+            font-size: 11px;
+
+        }
+
+
+        .breadcrumb-custom a {
+
+            color: #337ab7;
+
+        }
+
+
+        .file-manager-table {
+
+            margin: 0;
+
+        }
+
+
+        .file-manager-table>thead>tr>th {
+
+            background: #f8fafc;
+
+            border-top: none;
+
+            border-bottom:
+
+                1px solid #e5e9ed;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            color: #667482;
+
+            padding: 11px;
+
+        }
+
+
+        .file-manager-table>tbody>tr>td {
+
+            padding: 11px;
+
+            font-size: 11px;
+
+            vertical-align: middle;
+
+        }
+
+
+        .file-manager-folder-row {
+
+            cursor: pointer;
+
+        }
+
+
+        .file-manager-folder-row:hover {
+
+            background: #f5f8fc;
+
+        }
+
+
+        .folder-icon {
+
+            color: #f5b942;
+
+            font-size: 17px;
+
+            margin-right: 7px;
+
+        }
+
+
+        .file-icon {
+
+            color: #778492;
+
+            font-size: 16px;
+
+            margin-right: 7px;
+
+        }
+
+
+        .file-manager-name {
+
+            color: #34495e;
+
+            font-weight: 600;
+
+        }
+
+
+        .file-manager-path {
+
+            font-size: 10px;
+
+            color: #a0aab4;
+
+            margin-top: 2px;
+
+        }
+
+
+        .file-action {
+
+            border: none;
+
+            background: transparent;
+
+            color: #667482;
+
+            padding: 4px 7px;
+
+        }
+
+
+        .file-action:hover {
+
+            color: #337ab7;
+
+        }
+
+
+        /* =====================================================
+           DETAIL PAGE
+        ====================================================== */
+
+        .detail-card {
+
+            background: #ffffff;
+
+            border:
+
+                1px solid #e6ebf0;
+
+            border-radius: 10px;
+
+            box-shadow:
+
+                0 2px 8px rgba(0, 0, 0, .035);
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .detail-card-header {
+
+            padding: 16px 18px;
+
+            border-bottom:
+
+                1px solid #edf0f3;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .detail-card-title {
+
+            margin: 0;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        .detail-card-body {
+
+            padding: 20px;
+
+        }
+
+
+        .detail-item {
+
+            margin-bottom: 16px;
+
+        }
+
+
+        .detail-label {
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            color: #9aa5af;
+
+            font-weight: 600;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .detail-value {
+
+            font-size: 13px;
+
+            color: #34495e;
+
+            font-weight: 500;
+
+        }
+
+
+        /* =====================================================
+           ALERT
+        ====================================================== */
+
+        .dashboard-alert {
+
+            margin-bottom: 15px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           MOBILE OVERLAY
+        ====================================================== */
+
+        .sidebar-overlay {
+
+            display: none;
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            background:
+
+                rgba(0, 0, 0, .25);
+
+            z-index: 999;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 767px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+            }
+
+
+            .sidebar.open {
+
+                transform:
+                    translateX(0);
+
+            }
+
+
+            .sidebar-overlay.open {
+
+                display: block;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .mobile-menu-button {
+
+                display: inline-block;
+
+                margin-right: 12px;
+
+            }
+
+
+            .topbar {
+
+                padding:
+
+                    0 15px;
+
+            }
+
+
+            .user-info {
+
+                display: none;
+
+            }
+
+
+            .btn-logout {
+
+                margin-left: 5px;
+
+            }
+
+
+            .content {
+
+                padding: 15px;
+
+            }
+
+
+            .page-title {
+
+                font-size: 19px;
+
+            }
+
+
+            .page-subtitle {
+
+                display: none;
+
+            }
+
+
+            .visit-filter-card .form-group {
+
+                margin-bottom: 12px;
+
+            }
+
+
+            .btn-search-visit {
+
+                width: 100%;
+
+                margin-top: 0;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="app">
+
+
+        <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-logo">
+
+                <div class="logo-icon">
+
+                    <i class="glyphicon glyphicon-plus"></i>
+
+                </div>
+
+                <div>
+
+                    <div class="logo-text">
+                        SIMRS
+                    </div>
+
+                    <div class="logo-subtitle">
+                        CLAIM DOCUMENT MANAGER
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-menu">
+
+                <div class="menu-section-title">
+                    MENU UTAMA
+                </div>
+
+
+                <a href="/dashboard" data-route="dashboard" class="menu-link">
+
+                    <span class="menu-icon">
+                        <i class="glyphicon glyphicon-dashboard"></i>
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <a href="/dashboard/visits" data-route="visits" class="menu-link">
+
+                    <span class="menu-icon">
+                        <i class="glyphicon glyphicon-list-alt"></i>
+                    </span>
+
+                    <span>
+                        Data Kunjungan
+                    </span>
+
+                </a>
+
+
+                <a href="/dashboard/file-manager" data-route="fileManager" class="menu-link">
+
+                    <span class="menu-icon">
+                        <i class="glyphicon glyphicon-folder-open"></i>
+                    </span>
+
+                    <span>
+                        File Manager
+                    </span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =====================================================
+         SIDEBAR OVERLAY
+    ====================================================== -->
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+        <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+        <main class="main">
+
+
+            <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+            <header class="topbar">
+
+
+                <div class="topbar-left">
+
+                    <button type="button" class="mobile-menu-button" id="mobileMenuButton">
+
+                        <i class="glyphicon glyphicon-menu-hamburger"></i>
+
+                    </button>
+
+
+                    <span class="topbar-title" id="topbarTitle">
+                        Dashboard
+                    </span>
+
+                </div>
+
+
+                <div class="topbar-right">
+
+                    <div class="user-menu">
+
+                        <div class="user-avatar">
+
+                            <i class="glyphicon glyphicon-user"></i>
+
+                        </div>
+
+
+                        <div class="user-info">
+
+                            <div class="user-name" id="userName">
+                                Loading...
+                            </div>
+
+                            <div class="user-role" id="userRole">
+                                User
+                            </div>
+
+                        </div>
+
+
+                        <button type="button" class="btn-logout" id="btnLogout" title="Logout">
+
+                            <i class="glyphicon glyphicon-log-out"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </header>
+
+
+            <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+            <section class="content">
+
+
+                <!-- =================================================
+                 GLOBAL ALERT
+            ================================================== -->
+
+                <div id="globalAlert" class="dashboard-alert alert" style="display:none;"></div>
+
+
+                <!-- =================================================
+                 VIEW: DASHBOARD
+            ================================================== -->
+
+                <div id="viewDashboard" class="dashboard-view">
+
+
+                    <div class="page-header-custom">
+
+                        <div class="page-title-wrapper">
+
+                            <div class="page-title-icon">
+
+                                <i class="glyphicon glyphicon-dashboard"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h1 class="page-title">
+                                    Dashboard
+                                </h1>
+
+                                <p class="page-subtitle">
+                                    Ringkasan sistem manajemen dokumen klaim
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STAT -->
+
+                    <div class="row">
+
+
+                        <div class="col-md-3 col-sm-6">
+
+                            <div class="stat-card">
+
+                                <div class="stat-card-inner">
+
+                                    <div class="stat-icon stat-icon-blue">
+
+                                        <i class="glyphicon glyphicon-list-alt"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="stat-label">
+                                            KUNJUNGAN HARI INI
+                                        </div>
+
+                                        <div class="stat-value" id="statVisits">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-3 col-sm-6">
+
+                            <div class="stat-card">
+
+                                <div class="stat-card-inner">
+
+                                    <div class="stat-icon stat-icon-green">
+
+                                        <i class="glyphicon glyphicon-file"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="stat-label">
+                                            DOKUMEN TERSEDIA
+                                        </div>
+
+                                        <div class="stat-value" id="statDocuments">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-3 col-sm-6">
+
+                            <div class="stat-card">
+
+                                <div class="stat-card-inner">
+
+                                    <div class="stat-icon stat-icon-orange">
+
+                                        <i class="glyphicon glyphicon-folder-open"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="stat-label">
+                                            FOLDER
+                                        </div>
+
+                                        <div class="stat-value" id="statFolders">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-3 col-sm-6">
+
+                            <div class="stat-card">
+
+                                <div class="stat-card-inner">
+
+                                    <div class="stat-icon stat-icon-purple">
+
+                                        <i class="glyphicon glyphicon-ok"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="stat-label">
+                                            STATUS
+                                        </div>
+
+                                        <div class="stat-value" style="font-size:15px;">
+                                            ONLINE
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK ACCESS -->
+
+                    <div class="row">
+
+
+                        <div class="col-md-8">
+
+                            <div class="content-card">
+
+                                <div class="content-card-header">
+
+                                    <h3 class="content-card-title">
+                                        Akses Cepat
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="content-card-body">
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+
+                                            <a href="/dashboard/visits" class="quick-menu menu-link"
+                                                data-route="visits">
+
+                                                <div class="quick-menu-icon">
+
+                                                    <i class="glyphicon glyphicon-list-alt"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <div class="quick-menu-title">
+                                                        Data Kunjungan
+                                                    </div>
+
+                                                    <div class="quick-menu-description">
+                                                        Lihat daftar kunjungan pasien
+                                                    </div>
+
+                                                </div>
+
+                                            </a>
+
+                                        </div>
+
+
+                                        <div class="col-md-6">
+
+                                            <a href="/dashboard/file-manager" class="quick-menu menu-link"
+                                                data-route="fileManager">
+
+                                                <div class="quick-menu-icon">
+
+                                                    <i class="glyphicon glyphicon-folder-open"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <div class="quick-menu-title">
+                                                        File Manager
+                                                    </div>
+
+                                                    <div class="quick-menu-description">
+                                                        Kelola dokumen klaim
+                                                    </div>
+
+                                                </div>
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div class="content-card">
+
+                                <div class="content-card-header">
+
+                                    <h3 class="content-card-title">
+                                        Informasi Sistem
+                                    </h3>
+
+                                </div>
+
+                                <div class="content-card-body">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Aplikasi
+                                        </div>
+
+                                        <div class="detail-value">
+                                            Claim Document Manager
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Status API
+                                        </div>
+
+                                        <div class="detail-value">
+
+                                            <span class="visit-badge badge-success-custom">
+                                                ONLINE
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Session
+                                        </div>
+
+                                        <div class="detail-value">
+                                            Aktif
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                 VIEW: VISITS
+            ================================================== -->
+
+                <div id="viewVisits" class="dashboard-view">
+
+
+                    <div class="page-header-custom">
+
+                        <div class="page-title-wrapper">
+
+                            <div class="page-title-icon">
+
+                                <i class="glyphicon glyphicon-list-alt"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h1 class="page-title">
+                                    Data Kunjungan
+                                </h1>
+
+                                <p class="page-subtitle">
+                                    Daftar kunjungan pasien rawat jalan
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FILTER -->
+
+                    <div class="visit-filter-card">
+
+
+                        <div class="filter-title">
+
+                            <i class="glyphicon glyphicon-filter"></i>
+
+                            Filter Kunjungan
+
+                        </div>
+
+
+                        <form id="visitFilterForm">
+
+                            <div class="row">
+
+
+                                <!-- TANGGAL AWAL -->
+
+                                <div class="col-md-2 col-sm-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Tanggal Awal
+                                        </label>
+
+                                        <input type="date" class="form-control" id="tglAwal" required>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- TANGGAL AKHIR -->
+
+                                <div class="col-md-2 col-sm-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Tanggal Akhir
+                                        </label>
+
+                                        <input type="date" class="form-control" id="tglAkhir" required>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- NO RM -->
+
+                                <div class="col-md-2 col-sm-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            No. RM
+                                        </label>
+
+                                        <input type="text" class="form-control" id="norm" placeholder="No. RM">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- NO REG -->
+
+                                <div class="col-md-2 col-sm-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            No. Registrasi
+                                        </label>
+
+                                        <input type="text" class="form-control" id="noreg" placeholder="No. Registrasi">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- NAMA -->
+
+                                <div class="col-md-2 col-sm-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Nama Pasien
+                                        </label>
+
+                                        <input type="text" class="form-control" id="nama" placeholder="Nama pasien">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- JUMLAH -->
+
+                                <div class="col-md-1 col-sm-6">
+
+                                    <div class="form-group">
+
+                                        <label>
+                                            Jumlah
+                                        </label>
+
+                                        <select class="form-control" id="jmlRow">
+
+                                            <option value="25">
+                                                25
+                                            </option>
+
+                                            <option value="50">
+                                                50
+                                            </option>
+
+                                            <option value="100" selected>
+                                                100
+                                            </option>
+
+                                            <option value="200">
+                                                200
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- SEARCH -->
+
+                                <div class="col-md-1 col-sm-6">
+
+                                    <button type="submit" id="btnSearchVisit" class="btn btn-primary btn-search-visit">
+
+                                        <i class="glyphicon glyphicon-search"></i>
+
+                                        Cari
+
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- TABLE -->
+
+                    <div class="visit-table-card">
+
+
+                        <div class="visit-table-header">
+
+                            <h3 class="visit-table-title">
+                                Daftar Kunjungan
+                            </h3>
+
+
+                            <span id="visitCount" class="visit-count">
+                                0 data
+                            </span>
+
+                        </div>
+
+
+                        <div id="visitAlert" class="alert alert-danger" style="
+                            display:none;
+                            margin:15px;
+                        "></div>
+
+
+                        <div class="visit-table-wrapper">
+
+                            <table class="table visit-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            #
+                                        </th>
+
+                                        <th>
+                                            Tanggal
+                                        </th>
+
+                                        <th>
+                                            No. RM
+                                        </th>
+
+                                        <th>
+                                            Pasien
+                                        </th>
+
+                                        <th>
+                                            No. Registrasi
+                                        </th>
+
+                                        <th>
+                                            Ruangan
+                                        </th>
+
+                                        <th>
+                                            Dokter
+                                        </th>
+
+                                        <th>
+                                            Penjamin
+                                        </th>
+
+                                        <th>
+                                            No. SEP
+                                        </th>
+
+                                        <th>
+                                            Status
+                                        </th>
+
+                                        <th>
+                                            EMR
+                                        </th>
+
+                                        <th>
+                                            Aksi
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="visitTableBody">
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                 VIEW: VISIT DETAIL
+            ================================================== -->
+
+                <div id="viewVisitDetail" class="dashboard-view">
+
+
+                    <div class="page-header-custom">
+
+                        <div class="page-title-wrapper">
+
+                            <div class="page-title-icon">
+
+                                <i class="glyphicon glyphicon-file"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h1 class="page-title">
+                                    Detail Kunjungan
+                                </h1>
+
+                                <p class="page-subtitle">
+                                    Informasi detail kunjungan pasien
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <button type="button" class="btn btn-default" id="btnBackVisits">
+
+                            <i class="glyphicon glyphicon-arrow-left"></i>
+
+                            Kembali
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="detail-card">
+
+
+                        <div class="detail-card-header">
+
+                            <h3 class="detail-card-title">
+                                Informasi Kunjungan
+                            </h3>
+
+
+                            <span id="detailStatus" class="visit-badge badge-info-custom">
+                                -
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-card-body">
+
+
+                            <div class="row">
+
+
+                                <div class="col-md-3">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            No. Registrasi
+                                        </div>
+
+                                        <div id="detailNoreg" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            No. RM
+                                        </div>
+
+                                        <div id="detailNorm" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            No. SEP
+                                        </div>
+
+                                        <div id="detailNosep" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Tanggal Registrasi
+                                        </div>
+
+                                        <div id="detailTanggal" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+
+
+                                <div class="col-md-6">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Nama Pasien
+                                        </div>
+
+                                        <div id="detailNama" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Jenis Kelamin
+                                        </div>
+
+                                        <div id="detailGender" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Tanggal Lahir
+                                        </div>
+
+                                        <div id="detailBirth" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+
+
+                                <div class="col-md-4">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Ruangan
+                                        </div>
+
+                                        <div id="detailRuangan" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Dokter
+                                        </div>
+
+                                        <div id="detailDokter" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="detail-item">
+
+                                        <div class="detail-label">
+                                            Penjamin
+                                        </div>
+
+                                        <div id="detailPenjamin" class="detail-value">
+                                            -
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DOCUMENT ACTION -->
+
+                    <div class="detail-card">
+
+                        <div class="detail-card-header">
+
+                            <h3 class="detail-card-title">
+                                Dokumen Klaim
+                            </h3>
+
+                        </div>
+
+
+                        <div class="detail-card-body">
+
+                            <div class="alert alert-info">
+
+                                <i class="glyphicon glyphicon-info-sign"></i>
+
+                                Dokumen klaim dapat diproses
+                                setelah data kunjungan dipilih.
+
+                            </div>
+
+
+                            <button type="button" class="btn btn-primary" id="btnGenerateDocument">
+
+                                <i class="glyphicon glyphicon-file"></i>
+
+                                Generate Dokumen
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                 VIEW: FILE MANAGER
+            ================================================== -->
+
+                <div id="viewFileManager" class="dashboard-view">
+
+
+                    <div class="page-header-custom">
+
+                        <div class="page-title-wrapper">
+
+                            <div class="page-title-icon">
+
+                                <i class="glyphicon glyphicon-folder-open"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h1 class="page-title">
+                                    File Manager
+                                </h1>
+
+                                <p class="page-subtitle">
+                                    Kelola dokumen klaim
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="file-manager-card">
+
+
+                        <div class="file-manager-toolbar">
+
+
+                            <ol class="breadcrumb breadcrumb-custom" id="fileBreadcrumb">
+
+                                <li>
+                                    <a href="#" data-file-path="" class="file-breadcrumb-link">
+                                        <i class="glyphicon glyphicon-home"></i>
+                                        Claims
+                                    </a>
+                                </li>
+
+                            </ol>
+
+
+                            <button type="button" class="btn btn-default btn-sm" id="btnRefreshFiles">
+
+                                <i class="glyphicon glyphicon-refresh"></i>
+
+                                Refresh
+
+                            </button>
+
+                        </div>
+
+
+                        <div id="fileManagerAlert" class="alert alert-danger" style="
+                            display:none;
+                            margin:15px;
+                        "></div>
+
+
+                        <div class="table-responsive">
+
+                            <table class="table file-manager-table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Nama
+                                        </th>
+
+                                        <th width="130">
+                                            Ukuran
+                                        </th>
+
+                                        <th width="180">
+                                            Diubah
+                                        </th>
+
+                                        <th width="120">
+                                            Aksi
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="fileManagerBody">
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================================================
+     JQUERY
+========================================================== -->
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+    <!-- =========================================================
+     BOOTSTRAP
+========================================================== -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+    <script>
+
+        (function () {
+
+            'use strict';
+
+
+            /* =====================================================
+               GLOBAL STATE
+            ====================================================== */
+
+            var currentRoute = null;
+
+            var currentFilePath = '';
+
+
+            /* =====================================================
+               ROUTES
+            ====================================================== */
+
+            var routes = {
+                dashboard: '/dashboard',
+                visits: '/dashboard/visits',
+                visitDetail: '/dashboard/visits/detail',
+                fileManager: '/dashboard/file-manager'
+            };
+
+
+            /* =====================================================
+               INIT
+            ====================================================== */
+
+            $(document).ready(function () {
+
+
+                /*
+                 * Mobile sidebar
+                 */
+
+                $('#mobileMenuButton').on(
+                    'click',
+                    function () {
+
+                        $('#sidebar')
+                            .addClass('open');
+
+                        $('#sidebarOverlay')
+                            .addClass('open');
+
+                    }
+                );
+
+
+                $('#sidebarOverlay').on(
+                    'click',
+                    closeSidebar
+                );
+
+
+                /*
+                 * Navigation
+                 */
+
+                $(document).on(
+                    'click',
+                    'a.menu-link',
+                    function (event) {
+
+                        event.preventDefault();
+
+                        var route =
+                            $(this).data('route');
+
+                        navigateToRoute(
+                            route
+                        );
+
+                    }
+                );
+
+
+                /*
+                 * Back detail
+                 */
+
+                $('#btnBackVisits').on(
+                    'click',
+                    function () {
+
+                        navigateToRoute(
+                            'visits'
+                        );
+
+                    }
+                );
+
+
+                /*
+                 * Logout
+                 */
+
+                $('#btnLogout').on(
+                    'click',
+                    logout
+                );
+
+
+                /*
+                 * Browser back / forward
+                 */
+
+                window.addEventListener(
+                    'popstate',
+                    function () {
+
+                        renderCurrentUrl();
+
+                    }
+                );
+
+
+                /*
+                 * Visit filter
+                 */
+
+                $('#visitFilterForm').on(
+                    'submit',
+                    function (event) {
+
+                        event.preventDefault();
+
+                        loadVisits();
+
+                    }
+                );
+
+
+                /*
+                 * File refresh
+                 */
+
+                $('#btnRefreshFiles').on(
+                    'click',
+                    function () {
+
+                        loadFileManager(
+                            currentFilePath
+                        );
+
+                    }
+                );
+
+
+                /*
+                 * File breadcrumb
+                 */
+
+                $(document).on(
+                    'click',
+                    '.file-breadcrumb-link',
+                    function (event) {
+
+                        event.preventDefault();
+
+                        var path =
+                            $(this).data(
+                                'file-path'
+                            ) || '';
+
+                        loadFileManager(
+                            path
+                        );
+
+                    }
+                );
+
+
+                /*
+                 * File folder
+                 */
+
+                $(document).on(
+                    'click',
+                    '#fileManagerBody tr[data-type="folder"]',
+                    function () {
+
+                        var folderPath =
+                            $(this).data(
+                                'path'
+                            );
+
+                        if (folderPath) {
+
+                            loadFileManager(
+                                folderPath
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                /*
+                 * File preview
+                 */
+
+                $(document).on(
+                    'click',
+                    '.file-preview-action',
+                    function (event) {
+
+                        event.preventDefault();
+
+                        var filePath =
+                            $(this).data(
+                                'path'
+                            );
+
+                        previewFile(
+                            filePath
+                        );
+
+                    }
+                );
+
+
+                /*
+                 * File download
+                 */
+
+                $(document).on(
+                    'click',
+                    '.file-download-action',
+                    function (event) {
+
+                        event.preventDefault();
+
+                        var filePath =
+                            $(this).data(
+                                'path'
+                            );
+
+                        downloadFile(
+                            filePath
+                        );
+
+                    }
+                );
+
+
+                /*
+                 * Initial page
+                 */
+
+                loadCurrentUser();
+
+                renderCurrentUrl();
+
+            });
+
+
+            /* =====================================================
+               NAVIGATION
+            ====================================================== */
+
+            function navigateToRoute(
+                route,
+                params
+            ) {
+
+                var url = routes[route];
+
+
+                if (!url) {
+
+                    url =
+                        routes.dashboard;
+
+                }
+
+
+                if (params) {
+
+                    var query =
+                        new URLSearchParams(
+                            params
+                        ).toString();
+
+                    if (query) {
+
+                        url +=
+                            '?' +
+                            query;
+
+                    }
+
+                }
+
+
+                window.history.pushState(
+                    {},
+                    '',
+                    url
+                );
+                renderCurrentUrl();
+                closeSidebar();
+            }
+
+
+            /* =====================================================
+               RENDER CURRENT URL
+            ====================================================== */
+
+            function renderCurrentUrl() {
+
+                var pathname =
+                    window.location.pathname;
+
+
+                var params =
+                    new URLSearchParams(
+                        window.location.search
+                    );
+
+
+                hideAllViews();
+
+
+                if (
+                    pathname ===
+                    routes.visits
+                ) {
+
+                    currentRoute =
+                        'visits';
+
+                    activateMenu(
+                        'visits'
+                    );
+
+                    setTopbarTitle(
+                        'Data Kunjungan'
+                    );
+
+                    $('#viewVisits')
+                        .addClass('active');
+
+                    initializeVisits();
+
+                    return;
+
+                }
+
+
+                if (
+                    pathname ===
+                    routes.visitDetail
+                ) {
+
+                    currentRoute =
+                        'visit-detail';
+
+                    activateMenu(
+                        'visits'
+                    );
+
+                    setTopbarTitle(
+                        'Detail Kunjungan'
+                    );
+
+                    $('#viewVisitDetail')
+                        .addClass('active');
+
+                    renderVisitDetail(
+                        params
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    pathname ===
+                    routes.fileManager
+                ) {
+
+                    currentRoute =
+                        'file-manager';
+
+                    activateMenu(
+                        'file-manager'
+                    );
+
+                    setTopbarTitle(
+                        'File Manager'
+                    );
+
+                    $('#viewFileManager')
+                        .addClass('active');
+
+                    var filePath =
+                        params.get(
+                            'path'
+                        ) || '';
+
+                    loadFileManager(
+                        filePath
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                 * Default
+                 */
+
+                currentRoute =
+                    'dashboard';
+
+                activateMenu(
+                    'dashboard'
+                );
+
+                setTopbarTitle(
+                    'Dashboard'
+                );
+
+                $('#viewDashboard')
+                    .addClass('active');
+
+                loadDashboardStats();
+
+            }
+
+
+            /* =====================================================
+               HIDE VIEWS
+            ====================================================== */
+
+            function hideAllViews() {
+
+                $('.dashboard-view')
+                    .removeClass(
+                        'active'
+                    );
+
+            }
+
+
+            /* =====================================================
+               ACTIVE MENU
+            ====================================================== */
+
+            function activateMenu(
+                route
+            ) {
+
+                $('.sidebar-menu a.menu-link')
+                    .removeClass(
+                        'active'
+                    );
+
+
+                $('.sidebar-menu a[data-route="' +
+                    route +
+                    '"]')
+                    .addClass(
+                        'active'
+                    );
+
+
+                /*
+                 * Quick access links
+                 */
+
+                $('.quick-menu.menu-link')
+                    .removeClass(
+                        'active'
+                    );
+
+            }
+
+
+            /* =====================================================
+               TOPBAR TITLE
+            ====================================================== */
+
+            function setTopbarTitle(
+                title
+            ) {
+
+                $('#topbarTitle')
+                    .text(
+                        title
+                    );
+
+            }
+
+
+            /* =====================================================
+               CURRENT USER
+            ====================================================== */
+
+            function loadCurrentUser() {
+
+                $.ajax({
+
+                    url:
+                        '/login/me',
+
+                    method:
+                        'GET',
+
+                    dataType:
+                        'json',
+
+                    success:
+                        function (response) {
+
+                            if (
+                                !response ||
+                                !response.success
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            var user =
+                                response.data ||
+                                response.user ||
+                                {};
+
+
+                            var name =
+                                user.namaLengkap ||
+                                user.namaUser ||
+                                user.username ||
+                                'User';
+
+
+                            var role =
+                                user.kelompokUser ||
+                                'User';
+
+
+                            $('#userName')
+                                .text(
+                                    name
+                                );
+
+
+                            $('#userRole')
+                                .text(
+                                    role
+                                );
+
+                        },
+
+                    error:
+                        function () {
+
+                            $('#userName')
+                                .text(
+                                    'User'
+                                );
+
+                        }
+
+                });
+
+            }
+
+
+            /* =====================================================
+               LOGOUT
+            ====================================================== */
+
+            function logout() {
+
+                if (
+                    !window.confirm(
+                        'Apakah Anda yakin ingin logout?'
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                $.ajax({
+
+                    url:
+                        '/login/logout',
+
+                    method:
+                        'POST',
+
+                    dataType:
+                        'json',
+
+                    success:
+                        function () {
+
+                            window.location.href =
+                                '/login';
+
+                        },
+
+                    error:
+                        function () {
+
+                            window.location.href =
+                                '/login';
+
+                        }
+
+                });
+
+            }
+
+
+            /* =====================================================
+               DASHBOARD STATS
+            ====================================================== */
+
+            function loadDashboardStats() {
+
+                /*
+                 * Untuk sementara statistik
+                 * kunjungan menggunakan API yang sama.
+                 */
+
+                var today =
+                    formatDateInput(
+                        new Date()
+                    );
+
+
+                $.ajax({
+
+                    url:
+                        '/api/visits',
+
+                    method:
+                        'GET',
+
+                    dataType:
+                        'json',
+
+                    data: {
+
+                        tglAwal:
+                            today +
+                            ' 00:00:00',
+
+                        tglAkhir:
+                            today +
+                            ' 23:59:00',
+
+                        norm:
+                            '',
+
+                        noreg:
+                            '',
+
+                        nama:
+                            '',
+
+                        ruanganArr:
+                            '',
+
+                        isFasttrack:
+                            '',
+
+                        jmlRow:
+                            100
+
+                    },
+
+                    success:
+                        function (response) {
+
+                            if (
+                                response &&
+                                response.success
+                            ) {
+
+                                var visits =
+                                    Array.isArray(
+                                        response.data
+                                    )
+                                        ? response.data
+                                        : [];
+
+
+                                $('#statVisits')
+                                    .text(
+                                        visits.length
+                                    );
+
+                            }
+
+                        },
+
+                    error:
+                        function () {
+
+                            $('#statVisits')
+                                .text(
+                                    '-'
+                                );
+
+                        }
+
+                });
+
+
+                /*
+                 * File statistics
+                 */
+
+                $.ajax({
+
+                    url:
+                        '/api/file-manager/list',
+
+                    method:
+                        'GET',
+
+                    dataType:
+                        'json',
+
+                    data: {
+
+                        path:
+                            ''
+
+                    },
+
+                    success:
+                        function (response) {
+
+                            if (
+                                response &&
+                                response.success &&
+                                response.data
+                            ) {
+
+                                var items =
+                                    response.data.items ||
+                                    [];
+
+
+                                var folders =
+                                    items.filter(
+                                        function (item) {
+
+                                            return (
+                                                item.type ===
+                                                'folder'
+                                            );
+
+                                        }
+                                    );
+
+
+                                var files =
+                                    items.filter(
+                                        function (item) {
+
+                                            return (
+                                                item.type ===
+                                                'file'
+                                            );
+
+                                        }
+                                    );
+
+
+                                $('#statFolders')
+                                    .text(
+                                        folders.length
+                                    );
+
+
+                                $('#statDocuments')
+                                    .text(
+                                        files.length
+                                    );
+
+                            }
+
+                        }
+
+                });
+
+            }
+
+
+            /* =====================================================
+               VISITS INITIALIZE
+            ====================================================== */
+
+            var visitsInitialized =
+                false;
+
+
+            function initializeVisits() {
+
+                if (
+                    !visitsInitialized
+                ) {
+
+                    setDefaultVisitDate();
+
+                    visitsInitialized =
+                        true;
+
+                }
+
+
+                loadVisits();
+
+            }
+
+
+            /* =====================================================
+               DEFAULT VISIT DATE
+            ====================================================== */
+
+            function setDefaultVisitDate() {
+
+                var today =
+                    formatDateInput(
+                        new Date()
+                    );
+
+
+                $('#tglAwal')
+                    .val(
+                        today
+                    );
+
+
+                $('#tglAkhir')
+                    .val(
+                        today
+                    );
+
+            }
+
+
+            /* =====================================================
+               LOAD VISITS
+            ====================================================== */
+
+            function loadVisits() {
+
+                var tglAwal =
+                    $('#tglAwal')
+                        .val();
+
+
+                var tglAkhir =
+                    $('#tglAkhir')
+                        .val();
+
+
+                var norm =
+                    $.trim(
+                        $('#norm')
+                            .val() ||
+                        ''
+                    );
+
+
+                var noreg =
+                    $.trim(
+                        $('#noreg')
+                            .val() ||
+                        ''
+                    );
+
+
+                var nama =
+                    $.trim(
+                        $('#nama')
+                            .val() ||
+                        ''
+                    );
+
+
+                var jmlRow =
+                    $('#jmlRow')
+                        .val() ||
+                    100;
+
+
+                if (
+                    !tglAwal ||
+                    !tglAkhir
+                ) {
+
+                    showVisitAlert(
+                        'Tanggal awal dan tanggal akhir wajib diisi.'
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    tglAwal >
+                    tglAkhir
+                ) {
+
+                    showVisitAlert(
+                        'Tanggal awal tidak boleh lebih besar dari tanggal akhir.'
+                    );
+
+                    return;
+
+                }
+
+
+                hideVisitAlert();
+
+                setVisitLoading(
+                    true
+                );
+
+
+                $.ajax({
+
+                    url:
+                        '/api/visits',
+
+                    method:
+                        'GET',
+
+                    dataType:
+                        'json',
+
+                    data: {
+
+                        tglAwal:
+                            tglAwal +
+                            ' 00:00:00',
+
+                        tglAkhir:
+                            tglAkhir +
+                            ' 23:59:00',
+
+                        norm:
+                            norm,
+
+                        noreg:
+                            noreg,
+
+                        nama:
+                            nama,
+
+                        ruanganArr:
+                            '',
+
+                        isFasttrack:
+                            '',
+
+                        jmlRow:
+                            jmlRow
+
+                    },
+
+                    success:
+                        function (response) {
+
+                            if (
+                                !response ||
+                                response.success !==
+                                true
+                            ) {
+
+                                showVisitAlert(
+                                    response &&
+                                        response.message
+                                        ? response.message
+                                        : 'Gagal mengambil data kunjungan.'
+                                );
+
+                                renderVisitEmpty();
+
+                                return;
+
+                            }
+
+
+                            var visits =
+                                Array.isArray(
+                                    response.data
+                                )
+                                    ? response.data
+                                    : [];
+
+
+                            renderVisits(
+                                visits
+                            );
+
+                        },
+
+                    error:
+                        function (xhr) {
+
+                            var message =
+                                'Gagal mengambil data kunjungan.';
+
+
+                            if (
+                                xhr.responseJSON &&
+                                xhr.responseJSON.message
+                            ) {
+
+                                message =
+                                    xhr.responseJSON.message;
+
+                            }
+
+
+                            if (
+                                xhr.status ===
+                                401
+                            ) {
+
+                                message =
+                                    'Session login sudah berakhir. Silakan login kembali.';
+
+                            }
+
+
+                            showVisitAlert(
+                                message
+                            );
+
+
+                            renderVisitEmpty();
+
+                        },
+
+                    complete:
+                        function () {
+
+                            setVisitLoading(
+                                false
+                            );
+
+                        }
+
+                });
+
+            }
+
+
+            /* =====================================================
+               RENDER VISITS
+            ====================================================== */
+
+            function renderVisits(
+                visits
+            ) {
+
+                var $body =
+                    $('#visitTableBody');
+
+
+                $body.empty();
+
+
+                $('#visitCount')
+                    .text(
+                        visits.length +
+                        ' data'
+                    );
+
+
+                if (
+                    !visits.length
+                ) {
+
+                    renderVisitEmpty();
+
+                    return;
+
+                }
+
+
+                $.each(
+                    visits,
+                    function (
+                        index,
+                        visit
+                    ) {
+
+                        $body.append(
+                            createVisitRow(
+                                visit,
+                                index
+                            )
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               CREATE VISIT ROW
+            ====================================================== */
+
+            function createVisitRow(
+                visit,
+                index
+            ) {
+
+                var tanggal =
+                    formatDateTime(
+                        visit.tglregistrasi
+                    );
+
+
+                var norm =
+                    escapeHtml(
+                        visit.nocm ||
+                        '-'
+                    );
+
+
+                var nama =
+                    escapeHtml(
+                        visit.namapasien ||
+                        '-'
+                    );
+
+
+                var gender =
+                    escapeHtml(
+                        visit.jeniskelamin ||
+                        ''
+                    );
+
+
+                var noreg =
+                    escapeHtml(
+                        visit.noregistrasi ||
+                        '-'
+                    );
+
+
+                var ruangan =
+                    escapeHtml(
+                        visit.namaruangan ||
+                        '-'
+                    );
+
+
+                var dokter =
+                    escapeHtml(
+                        visit.namadokter ||
+                        '-'
+                    );
+
+
+                var penjamin =
+                    escapeHtml(
+                        visit.kelompokpasien ||
+                        '-'
+                    );
+
+
+                var nosep =
+                    escapeHtml(
+                        visit.nosep ||
+                        '-'
+                    );
+
+
+                var emr =
+                    visit.total_emr_isi != null
+                        ? visit.total_emr_isi
+                        : 0;
+
+
+                var status =
+                    getVisitStatus(
+                        visit
+                    );
+
+
+                var detailUrl =
+                    createVisitDetailUrl(
+                        visit
+                    );
+
+
+                return (
+
+                    '<tr>' +
+
+                    '<td>' +
+
+                    (index + 1) +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    tanggal +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    '<span class="registration-number">' +
+                    norm +
+                    '</span>' +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    '<div class="patient-name">' +
+                    nama +
+                    '</div>' +
+
+                    '<div class="patient-gender">' +
+                    gender +
+                    '</div>' +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    '<span class="registration-number">' +
+                    noreg +
+                    '</span>' +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    ruangan +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    dokter +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    penjamin +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    '<span class="sep-number">' +
+                    nosep +
+                    '</span>' +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    status +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    '<span class="visit-badge badge-info-custom">' +
+                    escapeHtml(
+                        String(emr)
+                    ) +
+                    '</span>' +
+
+                    '</td>' +
+
+
+                    '<td>' +
+
+                    '<a ' +
+
+                    'href="' +
+                    detailUrl +
+                    '" ' +
+
+                    'class="btn btn-visit-detail"' +
+
+                    'data-noreg="' +
+                    escapeHtml(
+                        visit.noregistrasi ||
+                        ''
+                    ) +
+                    '"' +
+
+                    '>' +
+
+                    '<i class="glyphicon glyphicon-eye-open"></i> ' +
+
+                    'Detail' +
+
+                    '</a>' +
+
+                    '</td>' +
+
+                    '</tr>'
+
+                );
+
+            }
+
+
+            /* =====================================================
+               DETAIL URL
+            ====================================================== */
+
+            function createVisitDetailUrl(
+                visit
+            ) {
+                console.log("Visit Url")
+                console.log(visit);
+                var params = new URLSearchParams();
+                if (
+                    visit.noregistrasi
+                ) {
+                    params.set(
+                        'noregistrasi',
+                        visit.noregistrasi
+                    );
+                }
+                if (
+                    visit.nocm
+                ) {
+                    params.set(
+                        'nocm',
+                        visit.nocm
+                    );
+                }
+                if (
+                    visit.nosep
+                ) {
+                    params.set(
+                        'nosep',
+                        visit.nosep
+                    );
+                }
+                if (
+                    visit.norec_pd
+                ) {
+                    params.set(
+                        'norec_pd',
+                        visit.norec_pd
+                    );
+                }
+                if (
+                    visit.norec_apd
+                ) {
+                    params.set(
+                        'norec_apd',
+                        visit.norec_apd
+                    );
+                }
+                if (
+                    visit.namapasien
+                ) {
+                    params.set(
+                        'namapasien',
+                        visit.namapasien
+                    );
+                }
+                if (
+                    visit.tgllahir
+                ) {
+                    params.set(
+                        'tgllahir',
+                        visit.tgllahir
+                    );
+                }
+                if (
+                    visit.jeniskelamin
+                ) {
+                    params.set(
+                        'jeniskelamin',
+                        visit.jeniskelamin
+                    );
+                }
+                if (
+                    visit.namaruangan
+                ) {
+                    params.set(
+                        'namaruangan',
+                        visit.namaruangan
+                    );
+                }
+                if (
+                    visit.tglregistrasi
+                ) {
+                    params.set(
+                        'tglregistrasi',
+                        visit.tglregistrasi
+                    );
+                }
+                if (
+                    visit.tgllahir
+                ) {
+                    params.set(
+                        'tgllahir',
+                        visit.tgllahir
+                    );
+                }
+                if (
+                    visit.kelompokpasien
+                ) {
+                    params.set(
+                        'kelompokpasien',
+                        visit.kelompokpasien
+                    );
+                }
+                return (
+                    routes.visitDetail +
+                    '?' +
+                    params.toString()
+                );
+            }
+            /* =====================================================
+               VISIT STATUS
+            ====================================================== */
+            function getVisitStatus(
+                visit
+            ) {
+
+                if (
+                    visit.tglselesaiperiksa
+                ) {
+
+                    return (
+
+                        '<span class="visit-badge badge-success-custom">' +
+
+                        '<i class="glyphicon glyphicon-ok"></i> ' +
+
+                        'Selesai' +
+
+                        '</span>'
+
+                    );
+
+                }
+
+
+                if (
+                    visit.ischeckin === true
+                ) {
+
+                    return (
+
+                        '<span class="visit-badge badge-info-custom">' +
+
+                        '<i class="glyphicon glyphicon-log-in"></i> ' +
+
+                        'Check-in' +
+
+                        '</span>'
+
+                    );
+
+                }
+
+
+                return (
+
+                    '<span class="visit-badge badge-muted-custom">' +
+
+                    'Menunggu' +
+
+                    '</span>'
+
+                );
+
+            }
+
+
+            /* =====================================================
+               VISIT DETAIL
+            ====================================================== */
+
+            function renderVisitDetail(
+                params
+            ) {
+                var noreg = params.get('noregistrasi') || '-';
+                var norm = params.get('nocm') || '-';
+                var nosep = params.get('nosep') || '-';
+                var namapasien = params.get('namapasien') || '-';
+                var tgllahir = params.get('tgllahir') || '-';
+                var jeniskelamin = params.get('jeniskelamin') || '-';
+                var namaruangan = params.get('namaruangan') || '-';
+                var tglregistrasi = params.get('tglregistrasi') || '-';
+                var kelompokpasien = params.get('kelompokpasien') || '-';
+
+
+                $('#detailNoreg').text(noreg);
+                $('#detailNorm').text(norm);
+                $('#detailNosep').text(nosep);
+                $('#detailNama').text(namapasien);
+                $('#detailGender').text(jeniskelamin);
+                $('#detailTanggal').text(tglregistrasi);
+                $('#detailBirth').text(tgllahir);
+                $('#detailDokter').text(namapasien);
+                $('#detailRuangan').text(namaruangan);
+                $('#detailPenjamin').text(kelompokpasien);
+
+
+                /*
+                 * Saat ini halaman detail
+                 * mendapatkan identifier dari URL.
+                 *
+                 * Data lengkap akan kita sambungkan
+                 * ke API detail kunjungan pada tahap berikutnya.
+                 */
+
+            }
+
+
+            /* =====================================================
+               FILE MANAGER
+            ====================================================== */
+
+            function loadFileManager(relativePath) {
+
+                /*
+                 * Pastikan relativePath selalu string.
+                 */
+                if (
+                    relativePath === undefined ||
+                    relativePath === null
+                ) {
+                    relativePath = '';
+                } else {
+                    relativePath = String(relativePath);
+                }
+
+                currentFilePath = relativePath;
+
+                renderFileBreadcrumb(
+                    relativePath
+                );
+
+                setFileLoading(
+                    true
+                );
+
+                $.ajax({
+
+                    url: '/api/file-manager/list',
+
+                    method: 'GET',
+
+                    dataType: 'json',
+
+                    data: {
+                        path: relativePath
+                    },
+
+                    success: function (response) {
+
+                        if (
+                            !response ||
+                            !response.success
+                        ) {
+
+                            showFileAlert(
+                                response &&
+                                    response.message
+                                    ? response.message
+                                    : 'Gagal mengambil data file.'
+                            );
+
+                            renderFileEmpty();
+
+                            return;
+                        }
+
+                        var data =
+                            response.data || {};
+
+                        renderFileItems(
+                            data.items || []
+                        );
+                    },
+
+                    error: function (xhr) {
+
+                        var message =
+                            'Gagal mengambil data file.';
+
+                        if (
+                            xhr.responseJSON &&
+                            xhr.responseJSON.message
+                        ) {
+                            message =
+                                xhr.responseJSON.message;
+                        }
+
+                        if (
+                            xhr.status === 401
+                        ) {
+                            message =
+                                'Session login sudah berakhir.';
+                        }
+
+                        showFileAlert(
+                            message
+                        );
+
+                        renderFileEmpty();
+                    },
+
+                    complete: function () {
+
+                        setFileLoading(
+                            false
+                        );
+                    }
+                });
+            }
+
+            /* =====================================================
+               FILE BREADCRUMB
+            ====================================================== */
+
+            function renderFileBreadcrumb(
+                relativePath
+            ) {
+
+                var $breadcrumb =
+                    $('#fileBreadcrumb');
+
+
+                $breadcrumb.empty();
+
+
+                var rootLi =
+                    $('<li></li>');
+
+
+                rootLi.append(
+
+                    $('<a></a>')
+                        .attr(
+                            'href',
+                            '#'
+                        )
+                        .attr(
+                            'data-file-path',
+                            ''
+                        )
+                        .addClass(
+                            'file-breadcrumb-link'
+                        )
+                        .html(
+                            '<i class="glyphicon glyphicon-home"></i> Claims'
+                        )
+
+                );
+
+
+                $breadcrumb.append(
+                    rootLi
+                );
+
+
+                if (
+                    !relativePath
+                ) {
+
+                    return;
+
+                }
+
+
+                var parts =
+                    relativePath
+                        .split('/')
+                        .filter(
+                            function (item) {
+
+                                return item !== '';
+
+                            }
+                        );
+
+
+                var accumulated =
+                    '';
+
+
+                $.each(
+                    parts,
+                    function (
+                        index,
+                        part
+                    ) {
+
+                        accumulated +=
+                            (accumulated
+                                ? '/'
+                                : '') +
+                            part;
+
+
+                        var li =
+                            $('<li></li>');
+
+
+                        if (
+                            index ===
+                            parts.length - 1
+                        ) {
+
+                            li.addClass(
+                                'active'
+                            );
+
+
+                            li.text(
+                                part
+                            );
+
+                        } else {
+
+                            li.append(
+
+                                $('<a></a>')
+                                    .attr(
+                                        'href',
+                                        '#'
+                                    )
+                                    .attr(
+                                        'data-file-path',
+                                        accumulated
+                                    )
+                                    .addClass(
+                                        'file-breadcrumb-link'
+                                    )
+                                    .text(
+                                        part
+                                    )
+
+                            );
+
+                        }
+
+
+                        $breadcrumb.append(
+                            li
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               FILE ITEMS
+            ====================================================== */
+
+            function renderFileItems(
+                items
+            ) {
+
+                var $body =
+                    $('#fileManagerBody');
+
+
+                $body.empty();
+
+
+                if (
+                    !items.length
+                ) {
+
+                    renderFileEmpty();
+
+                    return;
+
+                }
+
+
+                $.each(
+                    items,
+                    function (
+                        index,
+                        item
+                    ) {
+
+                        $body.append(
+                            createFileRow(
+                                item
+                            )
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =====================================================
+               CREATE FILE ROW
+            ====================================================== */
+
+            function createFileRow(
+                item
+            ) {
+
+                var safeName =
+                    escapeHtml(
+                        item.name ||
+                        '-'
+                    );
+
+
+                var safePath =
+                    escapeHtml(
+                        item.path ||
+                        ''
+                    );
+
+
+                var modified =
+                    item.modifiedAt
+                        ? formatFileDate(
+                            item.modifiedAt
+                        )
+                        : '-';
+
+
+                if (
+                    item.type ===
+                    'folder'
+                ) {
+
+                    return (
+
+                        '<tr ' +
+
+                        'data-type="folder" ' +
+
+                        'data-path="' +
+                        safePath +
+                        '"' +
+
+                        'class="file-manager-folder-row"' +
+
+                        '>' +
+
+                        '<td>' +
+
+                        '<span class="folder-icon">' +
+
+                        '<i class="glyphicon glyphicon-folder-open"></i>' +
+
+                        '</span>' +
+
+                        '<span class="file-manager-name">' +
+
+                        safeName +
+
+                        '</span>' +
+
+                        '</td>' +
+
+                        '<td>' +
+
+                        '-' +
+
+                        '</td>' +
+
+                        '<td>' +
+
+                        modified +
+
+                        '</td>' +
+
+                        '<td>' +
+
+                        '<span style="color:#9aa5af;font-size:10px;">' +
+
+                        'Buka folder' +
+
+                        '</span>' +
+
+                        '</td>' +
+
+                        '</tr>'
+
+                    );
+
+                }
+
+
+                return (
+
+                    '<tr>' +
+
+                    '<td>' +
+
+                    '<span class="file-icon">' +
+
+                    '<i class="' +
+                    getFileIcon(
+                        item.extension
+                    ) +
+                    '"></i>' +
+
+                    '</span>' +
+
+                    '<span class="file-manager-name">' +
+
+                    safeName +
+
+                    '</span>' +
+
+                    '</td>' +
+
+                    '<td>' +
+
+                    escapeHtml(
+                        item.sizeText ||
+                        '-'
+                    ) +
+
+                    '</td>' +
+
+                    '<td>' +
+
+                    modified +
+
+                    '</td>' +
+
+                    '<td>' +
+
+                    '<button ' +
+
+                    'type="button" ' +
+
+                    'class="file-action file-preview-action" ' +
+
+                    'data-path="' +
+                    safePath +
+                    '"' +
+
+                    'title="Preview"' +
+
+                    '>' +
+
+                    '<i class="glyphicon glyphicon-eye-open"></i>' +
+
+                    '</button>' +
+
+
+                    '<button ' +
+
+                    'type="button" ' +
+
+                    'class="file-action file-download-action" ' +
+
+                    'data-path="' +
+                    safePath +
+                    '"' +
+
+                    'title="Download"' +
+
+                    '>' +
+
+                    '<i class="glyphicon glyphicon-download-alt"></i>' +
+
+                    '</button>' +
+
+                    '</td>' +
+
+                    '</tr>'
+
+                );
+
+            }
+
+
+            /* =====================================================
+               FILE ICON
+            ====================================================== */
+
+            function getFileIcon(
+                extension
+            ) {
+
+                extension =
+                    String(
+                        extension ||
+                        ''
+                    ).toLowerCase();
+
+
+                if (
+                    extension ===
+                    '.pdf'
+                ) {
+
+                    return (
+                        'glyphicon glyphicon-file'
+                    );
+
+                }
+
+
+                if (
+                    extension === '.jpg' ||
+                    extension === '.jpeg' ||
+                    extension === '.png' ||
+                    extension === '.gif'
+                ) {
+
+                    return (
+                        'glyphicon glyphicon-picture'
+                    );
+
+                }
+
+
+                return (
+                    'glyphicon glyphicon-file'
+                );
+
+            }
+
+
+            /* =====================================================
+               FILE PREVIEW
+            ====================================================== */
+
+            function previewFile(
+                filePath
+            ) {
+
+                if (
+                    !filePath
+                ) {
+
+                    return;
+
+                }
+
+
+                var url =
+                    '/api/file-manager/preview?path=' +
+                    encodeURIComponent(
+                        filePath
+                    );
+
+
+                window.open(
+                    url,
+                    '_blank'
+                );
+
+            }
+
+
+            /* =====================================================
+               FILE DOWNLOAD
+            ====================================================== */
+
+            function downloadFile(
+                filePath
+            ) {
+
+                if (
+                    !filePath
+                ) {
+
+                    return;
+
+                }
+
+
+                var url =
+                    '/api/file-manager/download?path=' +
+                    encodeURIComponent(
+                        filePath
+                    );
+
+
+                window.location.href =
+                    url;
+
+            }
+
+
+            /* =====================================================
+               FILE LOADING
+            ====================================================== */
+
+            function setFileLoading(
+                loading
+            ) {
+
+                if (
+                    loading
+                ) {
+
+                    $('#fileManagerBody')
+                        .html(
+
+                            '<tr>' +
+
+                            '<td colspan="4">' +
+
+                            '<div class="loading-state">' +
+
+                            '<div>' +
+
+                            '<i class="glyphicon glyphicon-refresh glyphicon-spin"></i>' +
+
+                            '</div>' +
+
+                            '<div>' +
+
+                            'Memuat file...' +
+
+                            '</div>' +
+
+                            '</div>' +
+
+                            '</td>' +
+
+                            '</tr>'
+
+                        );
+
+                }
+
+            }
+
+
+            /* =====================================================
+               FILE EMPTY
+            ====================================================== */
+
+            function renderFileEmpty() {
+
+                $('#fileManagerBody')
+                    .html(
+
+                        '<tr>' +
+
+                        '<td colspan="4">' +
+
+                        '<div class="empty-state">' +
+
+                        '<div class="empty-icon">' +
+
+                        '<i class="glyphicon glyphicon-folder-open"></i>' +
+
+                        '</div>' +
+
+                        '<div class="empty-title">' +
+
+                        'Folder kosong' +
+
+                        '</div>' +
+
+                        '<div class="empty-description">' +
+
+                        'Tidak terdapat file atau folder pada lokasi ini.' +
+
+                        '</div>' +
+
+                        '</div>' +
+
+                        '</td>' +
+
+                        '</tr>'
+
+                    );
+
+            }
+
+
+            /* =====================================================
+               FILE ALERT
+            ====================================================== */
+
+            function showFileAlert(
+                message
+            ) {
+
+                $('#fileManagerAlert')
+                    .text(
+                        message
+                    )
+                    .show();
+
+            }
+
+
+            function hideFileAlert() {
+
+                $('#fileManagerAlert')
+                    .hide();
+
+            }
+
+
+            /* =====================================================
+               VISIT ALERT
+            ====================================================== */
+
+            function showVisitAlert(
+                message
+            ) {
+
+                $('#visitAlert')
+                    .text(
+                        message
+                    )
+                    .show();
+
+            }
+
+
+            function hideVisitAlert() {
+
+                $('#visitAlert')
+                    .hide();
+
+            }
+
+
+            /* =====================================================
+               VISIT LOADING
+            ====================================================== */
+
+            function setVisitLoading(
+                loading
+            ) {
+
+                var $button =
+                    $('#btnSearchVisit');
+
+
+                if (
+                    loading
+                ) {
+
+                    $button
+                        .prop(
+                            'disabled',
+                            true
+                        )
+                        .html(
+
+                            '<i class="glyphicon glyphicon-refresh glyphicon-spin"></i> ' +
+
+                            'Memuat...'
+
+                        );
+
+
+                    $('#visitTableBody')
+                        .html(
+
+                            '<tr>' +
+
+                            '<td colspan="12">' +
+
+                            '<div class="loading-state">' +
+
+                            '<div>' +
+
+                            '<i class="glyphicon glyphicon-refresh glyphicon-spin"></i>' +
+
+                            '</div>' +
+
+                            '<div>' +
+
+                            'Mengambil data kunjungan...' +
+
+                            '</div>' +
+
+                            '</div>' +
+
+                            '</td>' +
+
+                            '</tr>'
+
+                        );
+
+                    return;
+
+                }
+
+
+                $button
+                    .prop(
+                        'disabled',
+                        false
+                    )
+                    .html(
+
+                        '<i class="glyphicon glyphicon-search"></i> ' +
+
+                        'Cari'
+
+                    );
+
+            }
+
+
+            /* =====================================================
+               VISIT EMPTY
+            ====================================================== */
+
+            function renderVisitEmpty() {
+
+                $('#visitTableBody')
+                    .html(
+
+                        '<tr>' +
+
+                        '<td colspan="12">' +
+
+                        '<div class="empty-state">' +
+
+                        '<div class="empty-icon">' +
+
+                        '<i class="glyphicon glyphicon-inbox"></i>' +
+
+                        '</div>' +
+
+                        '<div class="empty-title">' +
+
+                        'Tidak ada data kunjungan' +
+
+                        '</div>' +
+
+                        '<div class="empty-description">' +
+
+                        'Tidak ditemukan kunjungan sesuai filter.' +
+
+                        '</div>' +
+
+                        '</div>' +
+
+                        '</td>' +
+
+                        '</tr>'
+
+                    );
+
+                $('#visitCount')
+                    .text(
+                        '0 data'
+                    );
+
+            }
+
+
+            /* =====================================================
+               DATE FORMAT
+            ====================================================== */
+
+            function formatDateInput(
+                date
+            ) {
+
+                var year =
+                    date.getFullYear();
+
+
+                var month =
+                    String(
+                        date.getMonth() + 1
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+
+
+                var day =
+                    String(
+                        date.getDate()
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+
+
+                return (
+                    year +
+                    '-' +
+                    month +
+                    '-' +
+                    day
+                );
+
+            }
+
+
+            /* =====================================================
+               DATETIME FORMAT
+            ====================================================== */
+
+            function formatDateTime(
+                value
+            ) {
+
+                if (
+                    !value
+                ) {
+
+                    return '-';
+
+                }
+
+
+                var parts =
+                    String(
+                        value
+                    ).split(
+                        ' '
+                    );
+
+
+                if (
+                    parts.length <
+                    2
+                ) {
+
+                    return escapeHtml(
+                        value
+                    );
+
+                }
+
+
+                var date =
+                    parts[0];
+
+
+                var time =
+                    parts[1];
+
+
+                var dateParts =
+                    date.split(
+                        '-'
+                    );
+
+
+                if (
+                    dateParts.length !==
+                    3
+                ) {
+
+                    return escapeHtml(
+                        value
+                    );
+
+                }
+
+
+                return (
+
+                    dateParts[2] +
+                    '/' +
+                    dateParts[1] +
+                    '/' +
+                    dateParts[0] +
+
+                    '<br>' +
+
+                    '<small>' +
+
+                    escapeHtml(
+                        time
+                    ) +
+
+                    '</small>'
+
+                );
+
+            }
+
+
+            /* =====================================================
+               FILE DATE FORMAT
+            ====================================================== */
+
+            function formatFileDate(
+                value
+            ) {
+
+                if (
+                    !value
+                ) {
+
+                    return '-';
+
+                }
+
+
+                var date =
+                    new Date(
+                        value
+                    );
+
+
+                if (
+                    isNaN(
+                        date.getTime()
+                    )
+                ) {
+
+                    return '-';
+
+                }
+
+
+                var day =
+                    String(
+                        date.getDate()
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+
+
+                var month =
+                    String(
+                        date.getMonth() + 1
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+
+
+                var year =
+                    date.getFullYear();
+
+
+                var hour =
+                    String(
+                        date.getHours()
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+
+
+                var minute =
+                    String(
+                        date.getMinutes()
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+
+
+                return (
+                    day +
+                    '/' +
+                    month +
+                    '/' +
+                    year +
+                    ' ' +
+                    hour +
+                    ':' +
+                    minute
+                );
+
+            }
+
+
+            /* =====================================================
+               URL PATH
+            ====================================================== */
+
+            function getUrlPath() {
+
+                var params =
+                    new URLSearchParams(
+                        window.location.search
+                    );
+
+
+                return (
+                    params.get(
+                        'path'
+                    ) || ''
+                );
+
+            }
+
+
+            /* =====================================================
+               ESCAPE HTML
+            ====================================================== */
+
+            function escapeHtml(
+                value
+            ) {
+
+                return $('<div>')
+                    .text(
+                        value == null
+                            ? ''
+                            : String(value)
+                    )
+                    .html();
+
+            }
+
+
+            /* =====================================================
+               SIDEBAR
+            ====================================================== */
+
+            function closeSidebar() {
+
+                $('#sidebar')
+                    .removeClass(
+                        'open'
+                    );
+
+                $('#sidebarOverlay')
+                    .removeClass(
+                        'open'
+                    );
+
+            }
+
+
+        })();
+
+    </script>
+
+
+</body>
+
+</html>

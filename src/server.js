@@ -6,6 +6,8 @@ const session = require('express-session');
 const authRoutes = require('./routes/auth.routes');
 const claimRoutes = require('./routes/claim.routes');
 const fileManagerRoutes = require('./routes/file-manager.routes');
+const visitRoutes =
+    require('./routes/visit.routes');
 const { requireAuth } = require('./middleware/auth.middleware');
 const app = express();
 app.use(
@@ -49,6 +51,11 @@ app.use(
     '/login',
     authRoutes
 );
+app.use(
+    '/api/visits',
+    requireAuth,
+    visitRoutes
+);
 // ============================================
 // ROOT
 // ============================================
@@ -62,7 +69,7 @@ app.get(
             req.session.authenticated
         ) {
             return res.redirect(
-                '/file-manager'
+                '/dashboard'
             );
         }
 
@@ -85,21 +92,32 @@ app.use(
         )
     )
 );
+app.use(
+    '/dashboard',
+    requireAuth,
+    express.static(
+        path.join(
+            process.cwd(),
+            'public',
+            'dashboard'
+        )
+    )
+);
 
 
 // =========================
 // ROUTES
 // =========================
-app.get(
-    '/',
-    (req, res) => {
-        res.json({
-            success: true,
-            message:
-                'Claim Document Merger API'
-        });
-    }
-);
+// app.get(
+//     '/',
+//     (req, res) => {
+//         res.json({
+//             success: true,
+//             message:
+//                 'Claim Document Merger API'
+//         });
+//     }
+// );
 app.use(
     '/api/claims',
     claimRoutes
@@ -108,10 +126,62 @@ app.use(
     '/api/file-manager',
     fileManagerRoutes
 );
+
 // =========================
 // SERVER
 // =========================
 const PORT = process.env.PORT || 3000;
+
+const dashboardDir = path.join(
+    process.cwd(),
+    'public',
+    'dashboard'
+);
+
+const dashboardIndex = path.join(
+    dashboardDir,
+    'index.html'
+);
+
+// Dashboard routes
+app.get(
+    '/dashboard',
+    requireAuth,
+    (req, res) => {
+        res.sendFile(dashboardIndex);
+    }
+);
+
+app.get(
+    '/dashboard/visits',
+    requireAuth,
+    (req, res) => {
+        res.sendFile(dashboardIndex);
+    }
+);
+
+app.get(
+    '/dashboard/visits/detail',
+    requireAuth,
+    (req, res) => {
+        res.sendFile(dashboardIndex);
+    }
+);
+
+app.get(
+    '/dashboard/file-manager',
+    requireAuth,
+    (req, res) => {
+        res.sendFile(dashboardIndex);
+    }
+);
+
+// Static assets dashboard
+app.use(
+    '/dashboard',
+    requireAuth,
+    express.static(dashboardDir)
+);
 app.listen(
     PORT,
     () => {

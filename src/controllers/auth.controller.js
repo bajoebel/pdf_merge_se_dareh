@@ -1,10 +1,16 @@
+const path = require('path');
+const axios = require('axios');
+
 function showLogin(req, res) {
-    if (req.session && req.session.authenticated) {
-        return res.redirect('/file-manager');
+    if (
+        req.session &&
+        req.session.authenticated
+    ) {
+        return res.redirect('/dashboard');
     }
 
     return res.sendFile(
-        require('path').join(
+        path.join(
             process.cwd(),
             'public',
             'login',
@@ -12,7 +18,6 @@ function showLogin(req, res) {
         )
     );
 }
-
 
 async function login(req, res) {
     try {
@@ -24,52 +29,178 @@ async function login(req, res) {
         if (!username || !password) {
             return res.status(400).json({
                 success: false,
-                message: 'Username dan password wajib diisi'
+                message:
+                    'Username dan password wajib diisi'
             });
         }
 
-        const adminUsername =
-            process.env.ADMIN_USERNAME;
+        const apiBaseUrl =
+            process.env.API_BASE_URL;
 
-        const adminPassword =
-            process.env.ADMIN_PASSWORD;
+        if (!apiBaseUrl) {
+            return res.status(500).json({
+                success: false,
+                message:
+                    'API_BASE_URL belum dikonfigurasi'
+            });
+        }
+
+        const loginUrl =
+            `${apiBaseUrl.replace(/\/$/, '')}/auth/sign-in`;
+
+        console.log(
+            'Login API:',
+            loginUrl
+        );
+
+        const response = await axios.post(
+            loginUrl,
+            {
+                namaUser: username,
+                kataSandi: password
+            },
+            {
+                timeout: 30000,
+                headers: {
+                    'Content-Type':
+                        'application/json',
+                    'Accept':
+                        'application/json'
+                }
+            }
+        );
+
+        const result = response.data;
+
+        console.log(
+            'Login API status:',
+            result.status
+        );
 
         if (
-            username !== adminUsername ||
-            password !== adminPassword
+            !result ||
+            !result.data ||
+            !result.messages ||
+            !result.messages['X-AUTH-TOKEN']
         ) {
             return res.status(401).json({
                 success: false,
-                message: 'Username atau password salah'
+                message:
+                    'Login API tidak mengembalikan token'
             });
         }
 
-        req.session.authenticated = true;
-        req.session.username = username;
+        const token =
+            result.messages['X-AUTH-TOKEN'];
 
-        return res.json({
-            success: true,
-            message: 'Login berhasil',
-            redirect: '/file-manager'
+        const user =
+            result.data;
+
+        /*
+         * Simpan informasi penting saja.
+         *
+         * Jangan simpan kataSandi/passCode
+         * dari response API.
+         */
+        req.session.authenticated = true;
+
+        req.session.user = {
+            id: user.id,
+            kdProfile: user.kdProfile,
+            namaUser: user.namaUser,
+            kelompokUser:
+                user.kelompokUser
+                    ? user.kelompokUser.kelompokUser
+                    : null,
+            namaLengkap:
+                user.pegawai
+                    ? user.pegawai.namaLengkap
+                    : user.namaUser,
+            profile:
+                user.profile
+                    ? {
+                        id: user.profile.id,
+                        namaLengkap:
+                            user.profile.namalengkap
+                    }
+                    : null
+        };
+
+        /*
+         * Token disimpan di server-side session.
+         * Tidak dikirim kembali ke browser.
+         */
+        req.session.authToken = token;
+
+        return req.session.save((error) => {
+            if (error) {
+                console.error(
+                    'Session save error:',
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message:
+                        'Gagal menyimpan session login'
+                });
+            }
+
+            return res.json({
+                success: true,
+                message:
+                    'Login berhasil',
+                redirect:
+                    '/dashboard',
+                data: {
+                    username:
+                        user.namaUser,
+                    namaLengkap:
+                        user.pegawai
+                            ? user.pegawai.namaLengkap
+                            : user.namaUser
+                }
+            });
         });
 
     } catch (error) {
         console.error(
-            'Login error:',
-            error
+            'Login API error:',
+            error.message
         );
 
-        return res.status(500).json({
+        if (error.response) {
+            console.error(
+                'API response:',
+                error.response.data
+            );
+        }
+
+        let message =
+            'Username atau password salah';
+
+        if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+        ) {
+            message =
+                error.response.data.message;
+        }
+
+        return res.status(
+            error.response
+                ? error.response.status
+                : 500
+        ).json({
             success: false,
-            message: 'Terjadi kesalahan saat login'
+            message
         });
     }
 }
 
-
 function logout(req, res) {
     req.session.destroy((error) => {
-
         if (error) {
             console.error(
                 'Logout error:',
@@ -78,20 +209,24 @@ function logout(req, res) {
 
             return res.status(500).json({
                 success: false,
-                message: 'Gagal logout'
+                message:
+                    'Gagal logout'
             });
         }
 
-        res.clearCookie('connect.sid');
+        res.clearCookie(
+            'connect.sid'
+        );
 
         return res.json({
             success: true,
-            message: 'Logout berhasil',
-            redirect: '/login'
+            message:
+                'Logout berhasil',
+            redirect:
+                '/login'
         });
     });
 }
-
 
 function currentUser(req, res) {
     if (
@@ -100,18 +235,16 @@ function currentUser(req, res) {
     ) {
         return res.status(401).json({
             success: false,
-            message: 'Belum login'
+            message:
+                'Belum login'
         });
     }
 
     return res.json({
         success: true,
-        data: {
-            username: req.session.username
-        }
+        data: req.session.user
     });
 }
-
 
 module.exports = {
     showLogin,
