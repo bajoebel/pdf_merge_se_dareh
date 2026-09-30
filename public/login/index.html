@@ -1,42 +1,29 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-
     <title>Login - Claim Document Merger</title>
-
-
     <!-- Bootstrap 3 -->
     <link
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     >
-
-
     <style>
-
         html,
         body {
             height: 100%;
         }
-
-
         body {
             margin: 0;
-
             font-family:
                 "Helvetica Neue",
                 Helvetica,
                 Arial,
                 sans-serif;
-
             background:
                 linear-gradient(
                     135deg,
@@ -383,69 +370,41 @@ $(function () {
     $('#loginForm').on(
         'submit',
         function (e) {
-
             e.preventDefault();
-
-
             var username =
                 $('#username').val().trim();
-
-
             var password =
                 $('#password').val();
-
-
             $('#loginError')
                 .hide()
                 .text('');
-
-
             $('#btnLogin')
                 .prop('disabled', true);
-
-
             $('.normal')
                 .hide();
-
-
             $('.loading')
                 .show();
-
-
             $.ajax({
-
                 url: '/login/login',
-
                 method: 'POST',
-
                 contentType:
                     'application/json',
-
                 data: JSON.stringify({
                     username: username,
                     password: password
                 }),
-
                 success: function (response) {
-
                     if (
                         response.success
                     ) {
-
                         window.location.href =
                             response.redirect ||
                             '/file-manager';
-
                     }
-
                 },
-
                 error: function (xhr) {
-
                     var message =
                         'Username atau password salah';
-
-
                     if (
                         xhr.responseJSON &&
                         xhr.responseJSON.message
@@ -453,42 +412,23 @@ $(function () {
                         message =
                             xhr.responseJSON.message;
                     }
-
-
                     $('#loginError')
                         .text(message)
                         .fadeIn(200);
-
                 },
-
                 complete: function () {
-
                     $('#btnLogin')
                         .prop('disabled', false);
-
-
                     $('.normal')
                         .show();
-
-
                     $('.loading')
                         .hide();
-
                 }
-
             });
-
         }
     );
-
-
     $('#username').focus();
-
 });
-
 </script>
-
-
 </body>
-
 </html>
