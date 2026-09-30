@@ -1,5 +1,5 @@
 const {
-    getDaftarKunjungan
+    getDaftarKunjungan,getComboData
 } = require('../services/visit.service');
 
 async function getVisits(req, res) {
@@ -14,7 +14,7 @@ async function getVisits(req, res) {
             isFasttrack = '',
             jmlRow = 100
         } = req.query;
-
+        console.log("ruangan "+ruanganArr)
         if (!tglAwal) {
             return res.status(400).json({
                 success: false,
@@ -82,7 +82,55 @@ async function getVisits(req, res) {
         });
     }
 }
+async function getCombo(req, res) {
+    try {
+        
+
+        const data = await getComboData(
+            req,
+            {}
+        );
+
+        return res.json({
+            success: true,
+            data
+        });
+    } catch (error) {
+        console.error(
+            'Get visits error:',
+            error
+        );
+
+        if (error.response) {
+            console.error(
+                'API status:',
+                error.response.status
+            );
+
+            console.error(
+                'API response:',
+                error.response.data
+            );
+
+            return res.status(
+                error.response.status
+            ).json({
+                success: false,
+                message:
+                    error.response.data?.message ||
+                    'Gagal mengambil data kunjungan'
+            });
+        }
+
+        return res.status(500).json({
+            success: false,
+            message:
+                error.message ||
+                'Gagal mengambil data kunjungan'
+        });
+    }
+}
 
 module.exports = {
-    getVisits
+    getVisits, getCombo
 };

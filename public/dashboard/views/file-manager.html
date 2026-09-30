@@ -1,0 +1,52 @@
+<section class="file-manager-page">
+    <div class="page-header-custom">
+        <div class="page-title-wrapper">
+            <div class="page-title-icon">
+                <i class="glyphicon glyphicon-folder-open"></i>
+            </div>
+
+            <div>
+                <h1 class="page-title">File Manager</h1>
+
+                <p class="page-subtitle">Kelola dokumen klaim</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="file-manager-card">
+        <div class="file-manager-toolbar">
+            <ol id="fileBreadcrumb" class="breadcrumb breadcrumb-custom"></ol>
+
+            <button
+                type="button"
+                id="btnRefreshFiles"
+                class="btn btn-default btn-sm"
+            >
+                <i class="glyphicon glyphicon-refresh"></i>
+
+                Refresh
+            </button>
+        </div>
+
+        <div
+            id="fileManagerAlert"
+            class="alert alert-danger"
+            style="display: none"
+        ></div>
+
+        <div class="table-responsive">
+            <table class="table file-manager-table">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th width="130">Ukuran</th>
+                        <th width="180">Diubah</th>
+                        <th width="120">Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="fileManagerBody"></tbody>
+            </table>
+        </div>
+    </div>
+</section>

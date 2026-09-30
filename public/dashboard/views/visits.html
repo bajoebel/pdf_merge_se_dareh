@@ -1,0 +1,186 @@
+<div id="viewVisits" class="dashboard-view">
+    <div class="page-header-custom">
+        <div class="page-title-wrapper">
+            <div class="page-title-icon">
+                <i class="glyphicon glyphicon-list-alt"></i>
+            </div>
+
+            <div>
+                <h1 class="page-title">Data Kunjungan</h1>
+
+                <p class="page-subtitle">Daftar kunjungan pasien rawat jalan</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTER -->
+
+    <div class="visit-filter-card">
+        <div class="filter-title">
+            <i class="glyphicon glyphicon-filter"></i>
+
+            Filter Kunjungan
+        </div>
+
+        <form id="visitFilterForm">
+            <div class="row">
+                <!-- TANGGAL AWAL -->
+
+                <div class="col-md-2 col-sm-6">
+                    <div class="form-group">
+                        <label> Tanggal Awal </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="tglAwal"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <!-- TANGGAL AKHIR -->
+
+                <div class="col-md-2 col-sm-6">
+                    <div class="form-group">
+                        <label> Tanggal Akhir </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="tglAkhir"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <!-- NO RM -->
+
+                <div class="col-md-2 col-sm-6">
+                    <div class="form-group">
+                        <label> No. RM </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="norm"
+                            placeholder="No. RM"
+                        />
+                    </div>
+                </div>
+
+                <!-- NO REG -->
+
+                <div class="col-md-2 col-sm-6">
+                    <div class="form-group">
+                        <label> No. Registrasi </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="noreg"
+                            placeholder="No. Registrasi"
+                        />
+                    </div>
+                </div>
+
+                <!-- NAMA -->
+
+                <div class="col-md-2 col-sm-6">
+                    <div class="form-group">
+                        <label> Nama Pasien </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="nama"
+                            placeholder="Nama pasien"
+                        />
+                    </div>
+                </div>
+
+                <!-- JUMLAH -->
+
+                <div class="col-md-1 col-sm-6">
+                    <div class="form-group">
+                        <label> Jumlah </label>
+
+                        <select class="form-control" id="jmlRow">
+                            <option value="25">25</option>
+
+                            <option value="50">50</option>
+
+                            <option value="100" selected>100</option>
+
+                            <option value="200">200</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SEARCH -->
+
+                <div class="col-md-1 col-sm-6">
+                    <button
+                        type="submit"
+                        id="btnSearchVisit"
+                        class="btn btn-primary btn-search-visit"
+                    >
+                        <i class="glyphicon glyphicon-search"></i>
+
+                        Cari
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="visit-table-card">
+        <div class="visit-table-header">
+            <h3 class="visit-table-title">Daftar Kunjungan</h3>
+
+            <span id="visitCount" class="visit-count"> 0 data </span>
+        </div>
+
+        <div
+            id="visitAlert"
+            class="alert alert-danger"
+            style="display: none; margin: 15px"
+        ></div>
+
+        <div class="visit-table-wrapper">
+            <table class="table visit-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+
+                        <th>Tanggal</th>
+
+                        <th>No. RM</th>
+
+                        <th>Pasien</th>
+
+                        <th>No. Registrasi</th>
+
+                        <th>Ruangan</th>
+
+                        <th>Dokter</th>
+
+                        <th>Penjamin</th>
+
+                        <th>No. SEP</th>
+
+                        <th>Status</th>
+
+                        <th>EMR</th>
+
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="visitTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>

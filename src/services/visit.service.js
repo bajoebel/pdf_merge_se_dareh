@@ -32,7 +32,20 @@ async function getDaftarKunjungan(
         params
     );
 }
+async function getComboData(
+    req,
+    filters = {}
+) {
+    
+    const params = {};
+
+    return await apiGet(
+        req,
+        'rawatjalan/get-data-combo-operator',
+        params
+    );
+}
 
 module.exports = {
-    getDaftarKunjungan
+    getDaftarKunjungan,getComboData
 };

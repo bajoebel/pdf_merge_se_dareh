@@ -1,472 +1,317 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
+    <head>
+        <meta charset="UTF-8" />
 
-<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta charset="UTF-8">
+        <title>Login - Claim Document Merger</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+        <!-- Bootstrap 3 -->
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        />
 
-    <title>Login - Claim Document Merger</title>
+        <style>
+            html,
+            body {
+                height: 100%;
+            }
 
+            body {
+                margin: 0;
 
-    <!-- Bootstrap 3 -->
-    <link
-        rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    >
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
+                background: linear-gradient(135deg, #f4f7fb 0%, #e8eef7 100%);
 
-    <style>
+                display: flex;
 
-        html,
-        body {
-            height: 100%;
-        }
+                align-items: center;
 
+                justify-content: center;
+            }
 
-        body {
-            margin: 0;
+            .login-wrapper {
+                width: 100%;
 
-            font-family:
-                "Helvetica Neue",
-                Helvetica,
-                Arial,
-                sans-serif;
+                max-width: 420px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #f4f7fb 0%,
-                    #e8eef7 100%
-                );
+                padding: 20px;
+            }
 
-            display: flex;
+            .login-card {
+                background: #fff;
 
-            align-items: center;
+                border-radius: 16px;
 
-            justify-content: center;
-        }
+                padding: 40px 35px 35px;
 
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            }
 
-        .login-wrapper {
-            width: 100%;
+            .login-logo {
+                width: 75px;
 
-            max-width: 420px;
+                height: 75px;
 
-            padding: 20px;
-        }
+                margin: 0 auto 20px;
 
+                border-radius: 18px;
 
-        .login-card {
-            background: #fff;
+                background: linear-gradient(135deg, #337ab7, #23527c);
 
-            border-radius: 16px;
+                color: #fff;
 
-            padding: 40px 35px 35px;
+                display: flex;
 
-            box-shadow:
-                0 15px 40px
-                rgba(0, 0, 0, 0.10);
-        }
+                align-items: center;
 
+                justify-content: center;
 
-        .login-logo {
-            width: 75px;
+                font-size: 32px;
 
-            height: 75px;
+                box-shadow: 0 8px 20px rgba(51, 122, 183, 0.3);
+            }
 
-            margin: 0 auto 20px;
+            .login-title {
+                text-align: center;
 
-            border-radius: 18px;
+                margin-bottom: 5px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #337ab7,
-                    #23527c
-                );
+                font-weight: 600;
 
-            color: #fff;
+                color: #263238;
+            }
 
-            display: flex;
+            .login-subtitle {
+                text-align: center;
 
-            align-items: center;
+                color: #90a4ae;
 
-            justify-content: center;
+                font-size: 13px;
 
-            font-size: 32px;
+                margin-bottom: 30px;
+            }
 
-            box-shadow:
-                0 8px 20px
-                rgba(51, 122, 183, 0.30);
-        }
+            .form-group {
+                margin-bottom: 20px;
+            }
 
+            .form-control {
+                height: 46px;
 
-        .login-title {
-            text-align: center;
+                border-radius: 8px;
 
-            margin-bottom: 5px;
+                border: 1px solid #dce3ea;
 
-            font-weight: 600;
+                box-shadow: none;
 
-            color: #263238;
-        }
+                padding-left: 42px;
+            }
 
+            .form-control:focus {
+                border-color: #337ab7;
 
-        .login-subtitle {
-            text-align: center;
+                box-shadow: 0 0 0 3px rgba(51, 122, 183, 0.1);
+            }
 
-            color: #90a4ae;
+            .input-icon {
+                position: absolute;
 
-            font-size: 13px;
+                left: 15px;
 
-            margin-bottom: 30px;
-        }
+                top: 15px;
 
+                color: #90a4ae;
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+                z-index: 3;
+            }
 
+            .input-wrapper {
+                position: relative;
+            }
 
-        .form-control {
-            height: 46px;
+            .btn-login {
+                width: 100%;
 
-            border-radius: 8px;
+                height: 46px;
 
-            border: 1px solid #dce3ea;
+                border: none;
 
-            box-shadow: none;
+                border-radius: 8px;
 
-            padding-left: 42px;
-        }
+                background: linear-gradient(135deg, #337ab7, #286090);
 
+                color: #fff;
 
-        .form-control:focus {
-            border-color: #337ab7;
+                font-size: 15px;
 
-            box-shadow:
-                0 0 0 3px
-                rgba(51, 122, 183, 0.10);
-        }
+                font-weight: 600;
 
+                transition: all 0.2s ease;
+            }
 
-        .input-icon {
-            position: absolute;
+            .btn-login:hover,
+            .btn-login:focus {
+                color: #fff;
 
-            left: 15px;
+                transform: translateY(-1px);
 
-            top: 15px;
+                box-shadow: 0 6px 15px rgba(51, 122, 183, 0.25);
+            }
 
-            color: #90a4ae;
+            .login-footer {
+                text-align: center;
 
-            z-index: 3;
-        }
+                margin-top: 25px;
 
+                color: #b0bec5;
 
-        .input-wrapper {
-            position: relative;
-        }
+                font-size: 12px;
+            }
 
+            #loginError {
+                display: none;
 
-        .btn-login {
-            width: 100%;
+                border-radius: 8px;
 
-            height: 46px;
+                margin-bottom: 20px;
+            }
 
-            border: none;
+            .loading {
+                display: none;
+            }
+        </style>
+    </head>
 
-            border-radius: 8px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #337ab7,
-                    #286090
-                );
-
-            color: #fff;
-
-            font-size: 15px;
-
-            font-weight: 600;
-
-            transition: all .2s ease;
-        }
-
-
-        .btn-login:hover,
-        .btn-login:focus {
-            color: #fff;
-
-            transform:
-                translateY(-1px);
-
-            box-shadow:
-                0 6px 15px
-                rgba(51, 122, 183, 0.25);
-        }
-
-
-        .login-footer {
-            text-align: center;
-
-            margin-top: 25px;
-
-            color: #b0bec5;
-
-            font-size: 12px;
-        }
-
-
-        #loginError {
-            display: none;
-
-            border-radius: 8px;
-
-            margin-bottom: 20px;
-        }
-
-
-        .loading {
-            display: none;
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-<div class="login-wrapper">
-
-    <div class="login-card">
-
-
-        <div class="login-logo">
-
-            <span class="glyphicon glyphicon-lock"></span>
-
-        </div>
-
-
-        <h3 class="login-title">
-            Claim Document Merger
-        </h3>
-
-
-        <div class="login-subtitle">
-            Silakan login untuk melanjutkan
-        </div>
-
-
-        <div
-            id="loginError"
-            class="alert alert-danger"
-        ></div>
-
-
-        <form id="loginForm">
-
-
-            <div class="form-group">
-
-                <label>
-                    Username
-                </label>
-
-                <div class="input-wrapper">
-
-                    <span
-                        class="glyphicon glyphicon-user input-icon"
-                    ></span>
-
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-control"
-                        placeholder="Masukkan username"
-                        autocomplete="username"
-                        required
-                    >
-
+    <body>
+        <div class="login-wrapper">
+            <div class="login-card">
+                <div class="login-logo">
+                    <span class="glyphicon glyphicon-lock"></span>
                 </div>
 
-            </div>
+                <h3 class="login-title">Claim Document Merger</h3>
 
-
-            <div class="form-group">
-
-                <label>
-                    Password
-                </label>
-
-                <div class="input-wrapper">
-
-                    <span
-                        class="glyphicon glyphicon-lock input-icon"
-                    ></span>
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Masukkan password"
-                        autocomplete="current-password"
-                        required
-                    >
-
+                <div class="login-subtitle">
+                    Silakan login untuk melanjutkan
                 </div>
 
+                <div id="loginError" class="alert alert-danger"></div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label> Username </label>
+
+                        <div class="input-wrapper">
+                            <span
+                                class="glyphicon glyphicon-user input-icon"
+                            ></span>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="form-control"
+                                placeholder="Masukkan username"
+                                autocomplete="username"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label> Password </label>
+
+                        <div class="input-wrapper">
+                            <span
+                                class="glyphicon glyphicon-lock input-icon"
+                            ></span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Masukkan password"
+                                autocomplete="current-password"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btnLogin" class="btn btn-login">
+                        <span class="normal"> Login </span>
+
+                        <span class="loading">
+                            <span class="glyphicon glyphicon-refresh"></span>
+
+                            Memproses...
+                        </span>
+                    </button>
+                </form>
+
+                <div class="login-footer">Claim Document Merger</div>
             </div>
-
-
-            <button
-                type="submit"
-                id="btnLogin"
-                class="btn btn-login"
-            >
-
-                <span class="normal">
-                    Login
-                </span>
-
-                <span class="loading">
-                    <span
-                        class="glyphicon glyphicon-refresh"
-                    ></span>
-
-                    Memproses...
-                </span>
-
-            </button>
-
-
-        </form>
-
-
-        <div class="login-footer">
-
-            Claim Document Merger
-
         </div>
 
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    </div>
+        <!-- Bootstrap 3 -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-</div>
+        <script>
+            $(function () {
+                $('#loginForm').on('submit', function (e) {
+                    e.preventDefault();
 
+                    var username = $('#username').val().trim();
 
-<!-- jQuery -->
-<script
-    src="https://code.jquery.com/jquery-3.7.1.min.js"
-></script>
+                    var password = $('#password').val();
 
+                    $('#loginError').hide().text('');
 
-<!-- Bootstrap 3 -->
-<script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-></script>
+                    $('#btnLogin').prop('disabled', true);
 
+                    $('.normal').hide();
 
-<script>
+                    $('.loading').show();
 
-$(function () {
-    $('#loginForm').on(
-        'submit',
-        function (e) {
+                    $.ajax({
+                        url: '/login/login',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            username: username,
+                            password: password,
+                        }),
+                        success: function (response) {
+                            if (response.success) {
+                                // alert("Go TO Dashbpard")
+                                window.location.href =
+                                    response.redirect || '/dashboard';
+                            }
+                        },
+                        error: function (xhr) {
+                            var message = 'Username atau password salah';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                message = xhr.responseJSON.message;
+                            }
+                            $('#loginError').text(message).fadeIn(200);
+                        },
+                        complete: function () {
+                            $('#btnLogin').prop('disabled', false);
+                            $('.normal').show();
+                            $('.loading').hide();
+                        },
+                    });
+                });
 
-            e.preventDefault();
-
-
-            var username =
-                $('#username').val().trim();
-
-
-            var password =
-                $('#password').val();
-
-
-            $('#loginError')
-                .hide()
-                .text('');
-
-
-            $('#btnLogin')
-                .prop('disabled', true);
-
-
-            $('.normal')
-                .hide();
-
-
-            $('.loading')
-                .show();
-
-
-            $.ajax({
-                url: '/login/login',
-                method: 'POST',
-                contentType:
-                    'application/json',
-                data: JSON.stringify({
-                    username: username,
-                    password: password
-                }),
-                success: function (response) {
-                    if (
-                        response.success
-                    ) {
-                        // alert("Go TO Dashbpard")
-                        window.location.href =
-                            response.redirect ||
-                            '/dashboard';
-
-                    }
-                },
-                error: function (xhr) {
-                    var message =
-                        'Username atau password salah';
-                    if (
-                        xhr.responseJSON &&
-                        xhr.responseJSON.message
-                    ) {
-                        message =
-                            xhr.responseJSON.message;
-                    }
-                    $('#loginError')
-                        .text(message)
-                        .fadeIn(200);
-                },
-                complete: function () {
-                    $('#btnLogin')
-                        .prop('disabled', false);
-                    $('.normal')
-                        .show();
-                    $('.loading')
-                        .hide();
-
-                }
+                $('#username').focus();
             });
-        }
-    );
-
-
-    $('#username').focus();
-
-});
-
-</script>
-
-
-</body>
-
+        </script>
+    </body>
 </html>

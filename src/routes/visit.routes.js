@@ -1,11 +1,12 @@
 const express = require('express');
 
 const {
-    getVisits
+    getVisits, getCombo
 } = require('../controllers/visit.controller');
 
 const router = express.Router();
 
 router.get('/', getVisits);
+router.get('/combo', getCombo);
 
 module.exports = router;
