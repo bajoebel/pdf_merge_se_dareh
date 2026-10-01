@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SIMRS Dashboard</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700" />
+        <link rel="stylesheet" href="/dashboard/css/dashboard.css" />
+    </head>
+
+    <body>
+        <div class="app">
+            <!-- SIDEBAR -->
+            <aside class="sidebar" id="sidebar"></aside>
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+            <!-- MAIN -->
+            <main class="main">
+                <!-- TOPBAR -->
+                <header class="topbar">
+                    <div class="topbar-left">
+                        <button type="button" class="mobile-menu-button" id="mobileMenuButton">
+                            <i class="glyphicon glyphicon-menu-hamburger"></i>
+                        </button>
+                        <span class="topbar-title" id="topbarTitle">Dashboard</span>
+                    </div>
+
+                    <div class="topbar-right">
+                        <div class="user-menu">
+                            <div class="user-avatar">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name" id="userName">Loading...</div>
+                                <div class="user-role" id="userRole">User</div>
+                            </div>
+                            <button type="button" class="btn-logout" id="btnLogout" title="Logout">
+                                <i class="glyphicon glyphicon-log-out"></i>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- CONTENT -->
+                <section class="content">
+                    <div id="globalAlert" class="dashboard-alert alert" style="display: none"></div>
+                    
+                    <!-- View HTML akan di-render di sini -->
+                    <div id="pageContent"></div>
+                </section>
+            </main>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        
+        <!-- App Main Entry Point -->
+        <script src="/dashboard/js/dashboard.js"></script>
+    </body>
+</html>

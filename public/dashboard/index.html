@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SIMRS Dashboard</title>
+        <!-- =========================================================
+         BOOTSTRAP 3
+    ========================================================== -->
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        />
+        <!-- =========================================================
+         FONT
+    ========================================================== -->
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700"
+        />
+        <link rel="stylesheet" href="/dashboard/css/dashboard.css" />
+        <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+        <style></style>
+    </head>
+
+    <body>
+        <div class="app">
+            <!-- =====================================================
+         SIDEBAR
+        ====================================================== -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-logo">
+                    <div class="logo-icon">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </div>
+                    <div>
+                        <div class="logo-text">SIMRS</div>
+                        <div class="logo-subtitle">CLAIM DOCUMENT MANAGER</div>
+                    </div>
+                </div>
+                <div class="sidebar-menu">
+                    <div class="menu-section-title">MENU UTAMA</div>
+                    <a
+                        href="/dashboard"
+                        data-route="dashboard"
+                        class="menu-link"
+                    >
+                        <span class="menu-icon">
+                            <i class="glyphicon glyphicon-dashboard"></i>
+                        </span>
+                        <span> Dashboard </span>
+                    </a>
+                    <a
+                        href="/dashboard/visits"
+                        data-route="visits"
+                        class="menu-link"
+                    >
+                        <span class="menu-icon">
+                            <i class="glyphicon glyphicon-list-alt"></i>
+                        </span>
+                        <span> Data Kunjungan </span>
+                    </a>
+                    <a
+                        href="/dashboard/file-manager"
+                        data-route="fileManager"
+                        class="menu-link"
+                    >
+                        <span class="menu-icon">
+                            <i class="glyphicon glyphicon-folder-open"></i>
+                        </span>
+                        <span> File Manager </span>
+                    </a>
+                </div>
+            </aside>
+            <!-- =====================================================
+         SIDEBAR OVERLAY
+        ====================================================== -->
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+            <!-- =====================================================
+         MAIN
+        ====================================================== -->
+            <main class="main">
+                <!-- =================================================
+             TOPBAR
+            ================================================== -->
+                <header class="topbar">
+                    <div class="topbar-left">
+                        <button
+                            type="button"
+                            class="mobile-menu-button"
+                            id="mobileMenuButton"
+                        >
+                            <i class="glyphicon glyphicon-menu-hamburger"></i>
+                        </button>
+                        <span class="topbar-title" id="topbarTitle">
+                            Dashboard
+                        </span>
+                    </div>
+                    <div class="topbar-right">
+                        <div class="user-menu">
+                            <div class="user-avatar">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name" id="userName">
+                                    Loading...
+                                </div>
+                                <div class="user-role" id="userRole">User</div>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn-logout"
+                                id="btnLogout"
+                                title="Logout"
+                            >
+                                <i class="glyphicon glyphicon-log-out"></i>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                <!-- =================================================
+             CONTENT
+            ================================================== -->
+                <section class="content">
+                    <!-- =================================================
+                 GLOBAL ALERT
+                ================================================== -->
+                    <div
+                        id="globalAlert"
+                        class="dashboard-alert alert"
+                        style="display: none"
+                    ></div>
+                    <!-- =================================================
+                 VIEW: DASHBOARD
+                ================================================== -->
+                    <div id="viewDashboard" class="dashboard-view">
+                        <div class="page-header-custom">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-icon">
+                                    <i
+                                        class="glyphicon glyphicon-dashboard"
+                                    ></i>
+                                </div>
+                                <div>
+                                    <h1 class="page-title">Dashboard</h1>
+                                    <p class="page-subtitle">
+                                        Ringkasan sistem manajemen dokumen klaim
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- STAT -->
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stat-card">
+                                    <div class="stat-card-inner">
+                                        <div class="stat-icon stat-icon-blue">
+                                            <i
+                                                class="glyphicon glyphicon-list-alt"
+                                            ></i>
+                                        </div>
+                                        <div>
+                                            <div class="stat-label">
+                                                KUNJUNGAN HARI INI
+                                            </div>
+                                            <div
+                                                class="stat-value"
+                                                id="statVisits"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stat-card">
+                                    <div class="stat-card-inner">
+                                        <div class="stat-icon stat-icon-green">
+                                            <i
+                                                class="glyphicon glyphicon-file"
+                                            ></i>
+                                        </div>
+                                        <div>
+                                            <div class="stat-label">
+                                                DOKUMEN TERSEDIA
+                                            </div>
+                                            <div
+                                                class="stat-value"
+                                                id="statDocuments"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stat-card">
+                                    <div class="stat-card-inner">
+                                        <div class="stat-icon stat-icon-orange">
+                                            <i
+                                                class="glyphicon glyphicon-folder-open"
+                                            ></i>
+                                        </div>
+                                        <div>
+                                            <div class="stat-label">FOLDER</div>
+                                            <div
+                                                class="stat-value"
+                                                id="statFolders"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stat-card">
+                                    <div class="stat-card-inner">
+                                        <div class="stat-icon stat-icon-purple">
+                                            <i
+                                                class="glyphicon glyphicon-ok"
+                                            ></i>
+                                        </div>
+                                        <div>
+                                            <div class="stat-label">STATUS</div>
+                                            <div
+                                                class="stat-value"
+                                                style="font-size: 15px"
+                                            >
+                                                ONLINE
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- QUICK ACCESS -->
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="content-card">
+                                    <div class="content-card-header">
+                                        <h3 class="content-card-title">
+                                            Akses Cepat
+                                        </h3>
+                                    </div>
+                                    <div class="content-card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <a
+                                                    href="/dashboard/visits"
+                                                    class="quick-menu menu-link"
+                                                    data-route="visits"
+                                                >
+                                                    <div
+                                                        class="quick-menu-icon"
+                                                    >
+                                                        <i
+                                                            class="glyphicon glyphicon-list-alt"
+                                                        ></i>
+                                                    </div>
+                                                    <div>
+                                                        <div
+                                                            class="quick-menu-title"
+                                                        >
+                                                            Data Kunjungan
+                                                        </div>
+                                                        <div
+                                                            class="quick-menu-description"
+                                                        >
+                                                            Lihat daftar
+                                                            kunjungan pasien
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a
+                                                    href="/dashboard/file-manager"
+                                                    class="quick-menu menu-link"
+                                                    data-route="fileManager"
+                                                >
+                                                    <div
+                                                        class="quick-menu-icon"
+                                                    >
+                                                        <i
+                                                            class="glyphicon glyphicon-folder-open"
+                                                        ></i>
+                                                    </div>
+                                                    <div>
+                                                        <div
+                                                            class="quick-menu-title"
+                                                        >
+                                                            File Manager
+                                                        </div>
+
+                                                        <div
+                                                            class="quick-menu-description"
+                                                        >
+                                                            Kelola dokumen klaim
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="content-card">
+                                    <div class="content-card-header">
+                                        <h3 class="content-card-title">
+                                            Informasi Sistem
+                                        </h3>
+                                    </div>
+
+                                    <div class="content-card-body">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Aplikasi
+                                            </div>
+
+                                            <div class="detail-value">
+                                                Claim Document Manager
+                                            </div>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Status API
+                                            </div>
+
+                                            <div class="detail-value">
+                                                <span
+                                                    class="visit-badge badge-success-custom"
+                                                >
+                                                    ONLINE
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Session
+                                            </div>
+
+                                            <div class="detail-value">
+                                                Aktif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =================================================
+                 VIEW: VISITS
+                ================================================== -->
+
+                    <div id="viewVisits" class="dashboard-view">
+                        <div class="page-header-custom">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-icon">
+                                    <i class="glyphicon glyphicon-list-alt"></i>
+                                </div>
+
+                                <div>
+                                    <h1 class="page-title">Data Kunjungan</h1>
+
+                                    <p class="page-subtitle">
+                                        Daftar kunjungan pasien rawat jalan
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FILTER -->
+
+                        <div class="visit-filter-card">
+                            <div class="filter-title">
+                                <i class="glyphicon glyphicon-filter"></i>
+
+                                Filter Kunjungan
+                            </div>
+
+                            <form id="visitFilterForm">
+                                <div class="row">
+                                    <!-- TANGGAL AWAL -->
+
+                                    <div class="col-md-2 col-sm-6">
+                                        <div class="form-group">
+                                            <label> Tanggal Awal </label>
+
+                                            <input
+                                                type="date"
+                                                class="form-control"
+                                                id="tglAwal"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- TANGGAL AKHIR -->
+
+                                    <div class="col-md-2 col-sm-6">
+                                        <div class="form-group">
+                                            <label> Tanggal Akhir </label>
+
+                                            <input
+                                                type="date"
+                                                class="form-control"
+                                                id="tglAkhir"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- NO RM -->
+
+                                    <div class="col-md-1 col-sm-6">
+                                        <div class="form-group">
+                                            <label> No. RM </label>
+
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="norm"
+                                                placeholder="No. RM"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- NO REG -->
+
+                                    <div class="col-md-1 col-sm-6">
+                                        <div class="form-group">
+                                            <label> No. Registrasi </label>
+
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="noreg"
+                                                placeholder="No. Registrasi"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <!-- NAMA -->
+
+                                    <div class="col-md-2 col-sm-6">
+                                        <div class="form-group">
+                                            <label> Nama Pasien </label>
+
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="nama"
+                                                placeholder="Nama pasien"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">
+                                        <div class="form-group">
+                                            <label> Ruangan </label>
+
+                                            <select name="ruanganArr" id="ruanganArr" class="form-control">
+                                                <option value="">Pilih</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- JUMLAH -->
+
+                                    <div class="col-md-1 col-sm-6">
+                                        <div class="form-group">
+                                            <label> Jumlah </label>
+
+                                            <select
+                                                class="form-control"
+                                                id="jmlRow"
+                                            >
+                                                <option value="25">25</option>
+
+                                                <option value="50">50</option>
+
+                                                <option value="100" selected>
+                                                    100
+                                                </option>
+
+                                                <option value="200">200</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- SEARCH -->
+
+                                    <div class="col-md-1 col-sm-6">
+                                        <button
+                                            type="submit"
+                                            id="btnSearchVisit"
+                                            class="btn btn-primary btn-search-visit"
+                                        >
+                                            <i
+                                                class="glyphicon glyphicon-search"
+                                            ></i>
+
+                                            Cari
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TABLE -->
+
+                        <div class="visit-table-card">
+                            <div class="visit-table-header">
+                                <h3 class="visit-table-title">
+                                    Daftar Kunjungan
+                                </h3>
+
+                                <span id="visitCount" class="visit-count">
+                                    0 data
+                                </span>
+                            </div>
+
+                            <div
+                                id="visitAlert"
+                                class="alert alert-danger"
+                                style="display: none; margin: 15px"
+                            ></div>
+
+                            <div class="visit-table-wrapper">
+                                <table class="table visit-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+
+                                            <th>Tanggal</th>
+
+                                            <th>No. RM</th>
+
+                                            <th>Pasien</th>
+
+                                            <th>No. Registrasi</th>
+
+                                            <th>Ruangan</th>
+
+                                            <th>Dokter</th>
+
+                                            <th>Penjamin</th>
+
+                                            <th>No. SEP</th>
+
+                                            <th>Status</th>
+
+                                            <th>EMR</th>
+
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="visitTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =================================================
+                 VIEW: VISIT DETAIL
+                ================================================== -->
+
+                    <div id="viewVisitDetail" class="dashboard-view">
+                        <div class="page-header-custom">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-icon">
+                                    <i class="glyphicon glyphicon-file"></i>
+                                </div>
+
+                                <div>
+                                    <h1 class="page-title">Detail Kunjungan</h1>
+
+                                    <p class="page-subtitle">
+                                        Informasi detail kunjungan pasien
+                                    </p>
+                                </div>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="btn btn-default"
+                                id="btnBackVisits"
+                            >
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+
+                                Kembali
+                            </button>
+                        </div>
+
+                        <div class="detail-card">
+                            <div class="detail-card-header">
+                                <h3 class="detail-card-title">
+                                    Informasi Kunjungan
+                                </h3>
+
+                                <span
+                                    id="detailStatus"
+                                    class="visit-badge badge-info-custom"
+                                >
+                                    -
+                                </span>
+                            </div>
+
+                            <div class="detail-card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                No. Registrasi
+                                            </div>
+
+                                            <div
+                                                id="detailNoreg"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                No. RM
+                                            </div>
+
+                                            <div
+                                                id="detailNorm"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                No. SEP
+                                            </div>
+
+                                            <div
+                                                id="detailNosep"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Tanggal Registrasi
+                                            </div>
+
+                                            <div
+                                                id="detailTanggal"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Nama Pasien
+                                            </div>
+
+                                            <div
+                                                id="detailNama"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Jenis Kelamin
+                                            </div>
+
+                                            <div
+                                                id="detailGender"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Tanggal Lahir
+                                            </div>
+
+                                            <div
+                                                id="detailBirth"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Ruangan
+                                            </div>
+
+                                            <div
+                                                id="detailRuangan"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Dokter
+                                            </div>
+
+                                            <div
+                                                id="detailDokter"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                Penjamin
+                                            </div>
+
+                                            <div
+                                                id="detailPenjamin"
+                                                class="detail-value"
+                                            >
+                                                -
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DOCUMENT ACTION -->
+
+                        <div class="detail-card">
+                            <div class="detail-card-header">
+                                <h3 class="detail-card-title">Dokumen Klaim</h3>
+                            </div>
+
+                            <div class="detail-card-body">
+                                <div class="alert alert-info">
+                                    <i
+                                        class="glyphicon glyphicon-info-sign"
+                                    ></i>
+
+                                    Dokumen klaim dapat diproses setelah data
+                                    kunjungan dipilih.
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    id="btnGenerateDocument"
+                                >
+                                    <i class="glyphicon glyphicon-file"></i>
+
+                                    Generate Dokumen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- =================================================
+                 VIEW: FILE MANAGER
+                ================================================== -->
+
+                    <div id="viewFileManager" class="dashboard-view">
+                        <div class="page-header-custom">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-icon">
+                                    <i
+                                        class="glyphicon glyphicon-folder-open"
+                                    ></i>
+                                </div>
+
+                                <div>
+                                    <h1 class="page-title">File Manager</h1>
+
+                                    <p class="page-subtitle">
+                                        Kelola dokumen klaim
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="file-manager-card">
+                            <div class="file-manager-toolbar">
+                                <ol
+                                    class="breadcrumb breadcrumb-custom"
+                                    id="fileBreadcrumb"
+                                >
+                                    <li>
+                                        <a
+                                            href="#"
+                                            data-file-path=""
+                                            class="file-breadcrumb-link"
+                                        >
+                                            <i
+                                                class="glyphicon glyphicon-home"
+                                            ></i>
+                                            Claims
+                                        </a>
+                                    </li>
+                                </ol>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-default btn-sm"
+                                    id="btnRefreshFiles"
+                                >
+                                    <i class="glyphicon glyphicon-refresh"></i>
+
+                                    Refresh
+                                </button>
+                            </div>
+
+                            <div
+                                id="fileManagerAlert"
+                                class="alert alert-danger"
+                                style="display: none; margin: 15px"
+                            ></div>
+
+                            <div class="table-responsive">
+                                <table class="table file-manager-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+
+                                            <th width="130">Ukuran</th>
+
+                                            <th width="180">Diubah</th>
+
+                                            <th width="120">Aksi</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="fileManagerBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- =========================================================
+     JQUERY
+========================================================== -->
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <!-- =========================================================
+     BOOTSTRAP
+========================================================== -->
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="/dashboard/js/dashboard.js"></script>
+        <!-- <script src="/dashboard/js/visits.js"></script> -->
+
+        <!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+        <script></script>
+    </body>
+</html>
