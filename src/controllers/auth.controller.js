@@ -36,7 +36,7 @@ async function login(req, res) {
 
         const apiBaseUrl =
             process.env.API_BASE_URL;
-
+        console.log("API URL "+apiBaseUrl)
         if (!apiBaseUrl) {
             return res.status(500).json({
                 success: false,

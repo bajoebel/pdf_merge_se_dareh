@@ -15,6 +15,7 @@ async function mergeClaim(
         const {
             claimNumber,
             tanggal,
+            type,
             documents
         } = req.body;
         // =========================
@@ -45,7 +46,8 @@ async function mergeClaim(
             await mergeClaimDocuments(
                 claimNumber,
                 tanggal,
-                documents
+                documents,
+                type,
             );
         // =========================
         // RESPONSE
